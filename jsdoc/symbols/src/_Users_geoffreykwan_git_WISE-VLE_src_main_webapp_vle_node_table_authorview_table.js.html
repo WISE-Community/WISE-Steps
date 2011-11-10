@@ -1,0 +1,963 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * Sets the TemplateNode type as an object of this view
+<span class='line'>  3</span>  * 
+<span class='line'>  4</span>  * TODO: rename TemplateNode
+<span class='line'>  5</span>  * @constructor
+<span class='line'>  6</span>  */</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="NAME">View.prototype.TableNode</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  8</span> 
+<span class='line'>  9</span> </span><span class="COMM">/*
+<span class='line'> 10</span>  * Add the name of the common component that this step will use. The
+<span class='line'> 11</span>  * common components will be handled by the authoring tool. You will
+<span class='line'> 12</span>  * need to create div elements with the appropriate id for the
+<span class='line'> 13</span>  * authoring tool to insert the component into. Any additional custom
+<span class='line'> 14</span>  * authoring components specific to your step type will be written 
+<span class='line'> 15</span>  * by you in the generatePage() function. You may leave the array
+<span class='line'> 16</span>  * empty if you are not using any common components.
+<span class='line'> 17</span>  * 
+<span class='line'> 18</span>  * Here are the available common components
+<span class='line'> 19</span>  * 'Prompt'
+<span class='line'> 20</span>  * 'LinkTo'
+<span class='line'> 21</span>  * 'StudentResponseBoxSize'
+<span class='line'> 22</span>  * 'RichTextEditorToggle'
+<span class='line'> 23</span>  * 'StarterSentenceAuthoring'
+<span class='line'> 24</span>  * 
+<span class='line'> 25</span>  * If you use a common components, you must create a div with the
+<span class='line'> 26</span>  * appropriate id, here are the respective ids
+<span class='line'> 27</span>  * 'promptContainer'
+<span class='line'> 28</span>  * (LinkTo does not require a div)
+<span class='line'> 29</span>  * 'studentResponseBoxSizeContainer'
+<span class='line'> 30</span>  * 'richTextEditorToggleContainer'
+<span class='line'> 31</span>  * 'starterSentenceAuthoringContainer'
+<span class='line'> 32</span>  * 
+<span class='line'> 33</span>  * 
+<span class='line'> 34</span>  * TODO: rename TemplateNode
+<span class='line'> 35</span>  */</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="NAME">View.prototype.TableNode.commonComponents</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 37</span> 
+<span class='line'> 38</span> </span><span class="COMM">/**
+<span class='line'> 39</span>  * Generates the authoring page. This function will create the authoring
+<span class='line'> 40</span>  * components such as textareas, radio buttons, check boxes, etc. that
+<span class='line'> 41</span>  * authors will use to author the step. For example if the step has a
+<span class='line'> 42</span>  * text prompt that the student will read, this function will create
+<span class='line'> 43</span>  * a textarea that will allow the author to type the text that the
+<span class='line'> 44</span>  * student will see. You will also need to populate the textarea with
+<span class='line'> 45</span>  * the pre-existing prompt if the step has been authored before.
+<span class='line'> 46</span>  * 
+<span class='line'> 47</span>  * TODO: rename TemplateNode
+<span class='line'> 48</span>  */</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="NAME">View.prototype.TableNode.generatePage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">view</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">	</span><span class="NAME">this.view</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">view</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">	
+<span class='line'> 52</span> 	</span><span class="COMM">//get the content of the step</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">	</span><span class="NAME">this.content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.view.activeContent.getContentJSON</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">	
+<span class='line'> 55</span> 	</span><span class="COMM">//get the html element that all the authoring components will be located</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">parent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementById</span><span class="PUNC">(</span><span class="STRN">'dynamicParent'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">	
+<span class='line'> 58</span> 	</span><span class="COMM">/*
+<span class='line'> 59</span> 	 * wipe out the div that contains the authoring components because it
+<span class='line'> 60</span> 	 * may still be populated with the authoring components from a previous
+<span class='line'> 61</span> 	 * step the author has been authoring since we re-use the div id
+<span class='line'> 62</span> 	 */</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">	</span><span class="NAME">parent.removeChild</span><span class="PUNC">(</span><span class="NAME">document.getElementById</span><span class="PUNC">(</span><span class="STRN">'dynamicPage'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> 
+<span class='line'> 65</span> </span><span class="WHIT">	</span><span class="COMM">//create a new div that will contain the authroing components</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">pageDiv</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'div'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">id</span><span class="PUNC">:</span><span class="STRN">'dynamicPage'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">style</span><span class="PUNC">:</span><span class="STRN">'width:100%;height:100%'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">	
+<span class='line'> 68</span> 	</span><span class="COMM">//create the label for the textarea that the author will write the prompt in</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">promptText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createTextNode</span><span class="PUNC">(</span><span class="STRN">"Prompt for Student:"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">	
+<span class='line'> 71</span> 	</span><span class="COMM">/*
+<span class='line'> 72</span> 	 * create the textarea that the author will write the prompt in
+<span class='line'> 73</span> 	 * 
+<span class='line'> 74</span> 	 * onkeyup will fire the 'templateUpdatePrompt' event which will
+<span class='line'> 75</span> 	 * be handled in the &lt;new step type name>Events.js file
+<span class='line'> 76</span> 	 * 
+<span class='line'> 77</span> 	 * For example if you are creating a quiz step you would look in
+<span class='line'> 78</span> 	 * your quizEvents.js file.
+<span class='line'> 79</span> 	 * 
+<span class='line'> 80</span> 	 * when you add new authoring components you will need to create
+<span class='line'> 81</span> 	 * new events in the &lt;new step type name>Events.js file and then
+<span class='line'> 82</span> 	 * create new functions to handle the event
+<span class='line'> 83</span> 	 */</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">promptTextArea</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'textarea'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'promptTextArea'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rows</span><span class="PUNC">:</span><span class="STRN">'5'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cols</span><span class="PUNC">:</span><span class="STRN">'85'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">onkeyup</span><span class="PUNC">:</span><span class="STRN">"eventManager.fire('tableUpdatePrompt')"</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">	
+<span class='line'> 86</span> 	</span><span class="COMM">//add the authoring components to the page</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">promptText</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">createBreak</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">promptTextArea</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">createBreak</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">createBreak</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">	
+<span class='line'> 93</span> 	</span><span class="COMM">//get the number of columns and rows</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">numColumns</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.content.numColumns</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">numRows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.content.numRows</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">globalCellSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.content.globalCellSize</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">	
+<span class='line'> 98</span> 	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">globalCellSize</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">		</span><span class="COMM">//the step does not have a global cell size set so we will use empty string</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">		</span><span class="NAME">globalCellSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">	
+<span class='line'>103</span> 	</span><span class="COMM">//create the input boxes for columns and rows</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">numColumnsText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createTextNode</span><span class="PUNC">(</span><span class="STRN">'Columns: '</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">numColumnsInput</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'input'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'input'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'numColumnsInput'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'numColumnsInput'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">numColumns</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">size</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">onkeyup</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'eventManager.fire("tableUpdateNumColumns")'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">numRowsText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createTextNode</span><span class="PUNC">(</span><span class="STRN">' Rows: '</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">numRowsInput</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'input'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'input'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'numRowsInput'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'numRowsInput'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">numRows</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">size</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">onkeyup</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'eventManager.fire("tableUpdateNumRows")'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">	
+<span class='line'>109</span> 	</span><span class="COMM">//create the input box for the global cell size</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">globalCellSizeText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createTextNode</span><span class="PUNC">(</span><span class="STRN">' Global Cell Size: '</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">globalCellSizeInput</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'input'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'input'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'globalCellSizeInput'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'numRowsInput'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">globalCellSize</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">size</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">onkeyup</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'eventManager.fire("tableUpdateGlobalCellSize")'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">	
+<span class='line'>113</span> 	</span><span class="COMM">//add the input boxes for columns and rows</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">numColumnsText</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">numColumnsInput</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">numRowsText</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">numRowsInput</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">globalCellSizeText</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">globalCellSizeInput</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">createBreak</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">createBreak</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">	
+<span class='line'>123</span> 	</span><span class="COMM">//instructions on what the letters mean in the table UI</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">iText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createTextNode</span><span class="PUNC">(</span><span class="STRN">'I = Insert Column/Row'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createTextNode</span><span class="PUNC">(</span><span class="STRN">'D = Delete Column/Row'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">uText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createTextNode</span><span class="PUNC">(</span><span class="STRN">'U = Uneditable for student'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">sText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createTextNode</span><span class="PUNC">(</span><span class="STRN">'S = Size of Cell (width in number of characters, overrides Global Cell Size)'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">	
+<span class='line'>129</span> 	</span><span class="COMM">//add the instructions</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">iText</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">createBreak</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">dText</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">createBreak</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">uText</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">createBreak</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">sText</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">createBreak</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">createBreak</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">	
+<span class='line'>140</span> 	</span><span class="COMM">//create the div that will hold the table</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tableDiv</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'div'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'authoringTableDiv'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">	
+<span class='line'>143</span> 	</span><span class="COMM">//add the table</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">tableDiv</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">createBreak</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">	
+<span class='line'>147</span> 	</span><span class="COMM">//generate the authorable table</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">authoringTable</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.generateAuthoringTable</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">	
+<span class='line'>150</span> 	</span><span class="COMM">//add the table</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">	</span><span class="NAME">tableDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">authoringTable</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>152</span> 
+<span class='line'>153</span> </span><span class="WHIT">	</span><span class="COMM">//create the checkbox to hide everything below the table</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">hideEverythingBelowTableCheckBox</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'input'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'checkbox'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'hideEverythingBelowTableCheckBox'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'hideEverythingBelowTableCheckBox'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">onchange</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'eventManager.fire("tableUpdateHideEverythingBelowTable")'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">	
+<span class='line'>156</span> 	</span><span class="COMM">//create the label for hide everything below the table</span><span class="WHIT">
+<span class='line'>157</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">hideEverythingBelowTableText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createTextNode</span><span class="PUNC">(</span><span class="STRN">"Hide Everything Below the Table"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="WHIT">	
+<span class='line'>159</span> 	</span><span class="COMM">//add the hide everything below the table elements</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">hideEverythingBelowTableCheckBox</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">hideEverythingBelowTableText</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">createBreak</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">createBreak</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="WHIT">	
+<span class='line'>165</span> 	</span><span class="COMM">//create the label for prompt2</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">promptText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createTextNode</span><span class="PUNC">(</span><span class="STRN">"Prompt2 for Student (shows up between the table and the student response textarea):"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">	
+<span class='line'>168</span> 	</span><span class="COMM">//create the prompt2 textarea</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">promptTextArea</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'textarea'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'prompt2TextArea'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rows</span><span class="PUNC">:</span><span class="STRN">'5'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cols</span><span class="PUNC">:</span><span class="STRN">'85'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">onkeyup</span><span class="PUNC">:</span><span class="STRN">"eventManager.fire('tableUpdatePrompt2')"</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">	
+<span class='line'>171</span> 	</span><span class="COMM">//add the prompt2</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">promptText</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">promptTextArea</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">createBreak</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">createBreak</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">	
+<span class='line'>177</span> 	</span><span class="COMM">//create the label for the starter sentence</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">starterSentenceText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createTextNode</span><span class="PUNC">(</span><span class="STRN">"Starter Sentence:"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="WHIT">	
+<span class='line'>180</span> 	</span><span class="COMM">//create the starter sentence textarea</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">starterSentenceTextArea</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'textarea'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'starterSentenceTextArea'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rows</span><span class="PUNC">:</span><span class="STRN">'5'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cols</span><span class="PUNC">:</span><span class="STRN">'85'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">onkeyup</span><span class="PUNC">:</span><span class="STRN">"eventManager.fire('tableUpdateStarterSentence')"</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">	
+<span class='line'>183</span> 	</span><span class="COMM">//add the starter sentence</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">starterSentenceText</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">starterSentenceTextArea</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">	
+<span class='line'>187</span> 	</span><span class="COMM">//add the page to the parent</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">	</span><span class="NAME">parent.appendChild</span><span class="PUNC">(</span><span class="NAME">pageDiv</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">	
+<span class='line'>190</span> 	</span><span class="COMM">//populate the prompt if this step has been authored before</span><span class="WHIT">
+<span class='line'>191</span> </span><span class="WHIT">	</span><span class="NAME">this.populatePrompts</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="WHIT">	
+<span class='line'>193</span> 	</span><span class="COMM">//populate the starter sentence</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="WHIT">	</span><span class="NAME">this.populateStarterSentence</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>195</span> </span><span class="WHIT">	
+<span class='line'>196</span> 	</span><span class="COMM">//set the checkbox</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this.content.hideEverythingBelowTable</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="WHIT">		</span><span class="NAME">hideEverythingBelowTableCheckBox.checked</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>200</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>201</span> 
+<span class='line'>202</span> </span><span class="COMM">/**
+<span class='line'>203</span>  * Generate the authorable table
+<span class='line'>204</span>  */</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="NAME">View.prototype.TableNode.generateAuthoringTable</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">	</span><span class="COMM">//create the table</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">authoringTable</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'table'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'authoringTable'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">border</span><span class="PUNC">:</span><span class="STRN">'1'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">	
+<span class='line'>209</span> 	</span><span class="COMM">//create a header row to display the I (insert) and D (delete) buttons</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">headerTR</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'tr'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">	</span><span class="NAME">authoringTable.appendChild</span><span class="PUNC">(</span><span class="NAME">headerTR</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="WHIT">	
+<span class='line'>213</span> 	</span><span class="COMM">//add the upper left cell (0,0) that will be empty</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">headerTD</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'td'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">	</span><span class="NAME">headerTR.appendChild</span><span class="PUNC">(</span><span class="NAME">headerTD</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">	
+<span class='line'>217</span> 	</span><span class="COMM">//add a td for each column</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">&lt;</span><span class="NAME">this.content.numColumns</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">		</span><span class="NAME">headerTD</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'td'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">		
+<span class='line'>221</span> 		</span><span class="COMM">//create the insert and delete buttons</span><span class="WHIT">
+<span class='line'>222</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">insertColumnButton</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'input'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'button'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'insertColumnButton_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'insertColumnButton_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'I'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">onclick</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'eventManager.fire("tableInsertColumn", {x:'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'})'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>223</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">deleteColumnButton</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'input'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'button'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'deleteColumnButton_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'deleteColumnButton_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'D'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">onclick</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'eventManager.fire("tableDeleteColumn", {x:'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'})'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>224</span> </span><span class="WHIT">		
+<span class='line'>225</span> 		</span><span class="NAME">headerTD.appendChild</span><span class="PUNC">(</span><span class="NAME">insertColumnButton</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>226</span> </span><span class="WHIT">		</span><span class="NAME">headerTD.appendChild</span><span class="PUNC">(</span><span class="NAME">deleteColumnButton</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>227</span> </span><span class="WHIT">		
+<span class='line'>228</span> 		</span><span class="NAME">headerTR.appendChild</span><span class="PUNC">(</span><span class="NAME">headerTD</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>229</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>230</span> </span><span class="WHIT">	
+<span class='line'>231</span> 	</span><span class="COMM">//loop through all the rows</span><span class="WHIT">
+<span class='line'>232</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">&lt;</span><span class="NAME">this.content.numRows</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>233</span> </span><span class="WHIT">		
+<span class='line'>234</span> 		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tr</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'tr'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>235</span> </span><span class="WHIT">		</span><span class="NAME">headerTD</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'td'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="WHIT">		
+<span class='line'>237</span> 		</span><span class="COMM">//create the insert and delete buttons</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">insertRowButton</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'input'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'button'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'insertRowButton_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'insertRowButton_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'I'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">onclick</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'eventManager.fire("tableInsertRow", {y:'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'})'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">deleteRowButton</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'input'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'button'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'deleteRowButton_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'deleteRowButton_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'D'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">onclick</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'eventManager.fire("tableDeleteRow", {y:'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'})'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>240</span> </span><span class="WHIT">		
+<span class='line'>241</span> 		</span><span class="NAME">headerTD.appendChild</span><span class="PUNC">(</span><span class="NAME">insertRowButton</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>242</span> </span><span class="WHIT">		</span><span class="NAME">headerTD.appendChild</span><span class="PUNC">(</span><span class="NAME">deleteRowButton</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="WHIT">		
+<span class='line'>244</span> 		</span><span class="NAME">tr.appendChild</span><span class="PUNC">(</span><span class="NAME">headerTD</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">		
+<span class='line'>246</span> 		</span><span class="COMM">//loop through all the columns</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">&lt;</span><span class="NAME">this.content.numColumns</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="WHIT">			
+<span class='line'>249</span> 			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">td</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'td'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="WHIT">			
+<span class='line'>251</span> 			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">cellText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">cellUneditable</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">cellSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">			
+<span class='line'>255</span> 			</span><span class="COMM">//get the data for the cell</span><span class="WHIT">
+<span class='line'>256</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">cellData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getCellData</span><span class="PUNC">(</span><span class="NAME">this.content.tableData</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>257</span> </span><span class="WHIT">			
+<span class='line'>258</span> 			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">cellData</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>259</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">cellData.text</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>260</span> </span><span class="WHIT">					</span><span class="NAME">cellText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cellData.text</span><span class="PUNC">;</span><span class="WHIT">					
+<span class='line'>261</span> 				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="WHIT">				
+<span class='line'>263</span> 				</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">cellData.uneditable</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="WHIT">					</span><span class="NAME">cellUneditable</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cellData.uneditable</span><span class="PUNC">;</span><span class="WHIT">					
+<span class='line'>265</span> 				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>266</span> </span><span class="WHIT">				
+<span class='line'>267</span> 				</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">cellData.cellSize</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>268</span> </span><span class="WHIT">					</span><span class="NAME">cellSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cellData.cellSize</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>269</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>270</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>271</span> </span><span class="WHIT">			
+<span class='line'>272</span> 			</span><span class="COMM">//create the input box for the cell</span><span class="WHIT">
+<span class='line'>273</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">cellTextInput</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'input'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'input'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'cellTextInput_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'-'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'cellTextInput_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'-'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">cellText</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">size</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">onkeyup</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'eventManager.fire("tableUpdateCellText", {x:'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">', y:'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'})'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>274</span> </span><span class="WHIT">			
+<span class='line'>275</span> 			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">cellNewline</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'br'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>276</span> </span><span class="WHIT">						
+<span class='line'>277</span> 			</span><span class="COMM">//label for the 'uneditable' checkbox</span><span class="WHIT">
+<span class='line'>278</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">cellCheckBoxText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createTextNode</span><span class="PUNC">(</span><span class="STRN">'U'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>279</span> </span><span class="WHIT">			
+<span class='line'>280</span> 			</span><span class="COMM">//create the checkbox for the cell that determines whether the student can edit the cell or not</span><span class="WHIT">
+<span class='line'>281</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">cellCheckBox</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'input'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'checkbox'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'cellUneditableCheckBox_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'-'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'cellUneditableCheckBox_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'-'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">onchange</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'eventManager.fire("tableUpdateCellUneditable", {x:'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">', y:'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'})'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>282</span> </span><span class="WHIT">			
+<span class='line'>283</span> 			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">cellUneditable</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>284</span> </span><span class="WHIT">				</span><span class="NAME">cellCheckBox.checked</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>285</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>286</span> </span><span class="WHIT">			
+<span class='line'>287</span> 			</span><span class="COMM">//label for the cell size input</span><span class="WHIT">
+<span class='line'>288</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">cellSizeText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createTextNode</span><span class="PUNC">(</span><span class="STRN">' S '</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>289</span> </span><span class="WHIT">			
+<span class='line'>290</span> 			</span><span class="COMM">//create the input for the cell size</span><span class="WHIT">
+<span class='line'>291</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">cellSizeInput</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'input'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'input'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'cellSizeInput_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'-'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'cellSizeInput_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'-'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">cellSize</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">size</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">onkeyup</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'eventManager.fire("tableUpdateCellSize", {x:'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">', y:'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'})'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>292</span> </span><span class="WHIT">			
+<span class='line'>293</span> 			</span><span class="COMM">//add the elements to the td</span><span class="WHIT">
+<span class='line'>294</span> </span><span class="WHIT">			</span><span class="NAME">td.appendChild</span><span class="PUNC">(</span><span class="NAME">cellTextInput</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>295</span> </span><span class="WHIT">			</span><span class="NAME">td.appendChild</span><span class="PUNC">(</span><span class="NAME">cellNewline</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>296</span> </span><span class="WHIT">			
+<span class='line'>297</span> 			</span><span class="COMM">//add the checkbox for uneditable</span><span class="WHIT">
+<span class='line'>298</span> </span><span class="WHIT">			</span><span class="NAME">td.appendChild</span><span class="PUNC">(</span><span class="NAME">cellCheckBoxText</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>299</span> </span><span class="WHIT">			</span><span class="NAME">td.appendChild</span><span class="PUNC">(</span><span class="NAME">cellCheckBox</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>300</span> </span><span class="WHIT">			
+<span class='line'>301</span> 			</span><span class="COMM">//add the input for the cell size</span><span class="WHIT">
+<span class='line'>302</span> </span><span class="WHIT">			</span><span class="NAME">td.appendChild</span><span class="PUNC">(</span><span class="NAME">cellSizeText</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>303</span> </span><span class="WHIT">			</span><span class="NAME">td.appendChild</span><span class="PUNC">(</span><span class="NAME">cellSizeInput</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>304</span> </span><span class="WHIT">			
+<span class='line'>305</span> 			</span><span class="NAME">tr.appendChild</span><span class="PUNC">(</span><span class="NAME">td</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>306</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>307</span> </span><span class="WHIT">		
+<span class='line'>308</span> 		</span><span class="NAME">authoringTable.appendChild</span><span class="PUNC">(</span><span class="NAME">tr</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>309</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>310</span> </span><span class="WHIT">	
+<span class='line'>311</span> 	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">authoringTable</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>312</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>313</span> 
+<span class='line'>314</span> </span><span class="COMM">/**
+<span class='line'>315</span>  * Refreshes the authoring table by generating it again using
+<span class='line'>316</span>  * the values in the content
+<span class='line'>317</span>  */</span><span class="WHIT">
+<span class='line'>318</span> </span><span class="NAME">View.prototype.TableNode.updateAuthoringTable</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>319</span> </span><span class="WHIT">	</span><span class="COMM">//generate the authoring table</span><span class="WHIT">
+<span class='line'>320</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">authoringTable</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.generateAuthoringTable</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>321</span> </span><span class="WHIT">	
+<span class='line'>322</span> 	</span><span class="COMM">//clear out the existing table</span><span class="WHIT">
+<span class='line'>323</span> </span><span class="WHIT">	</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#authoringTableDiv'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">html</span><span class="PUNC">(</span><span class="STRN">''</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>324</span> </span><span class="WHIT">	
+<span class='line'>325</span> 	</span><span class="COMM">//add the newly generated table</span><span class="WHIT">
+<span class='line'>326</span> </span><span class="WHIT">	</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#authoringTableDiv'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">append</span><span class="PUNC">(</span><span class="NAME">authoringTable</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>327</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>328</span> 
+<span class='line'>329</span> </span><span class="COMM">/**
+<span class='line'>330</span>  * Get the cell data for the given x, y cell
+<span class='line'>331</span>  * @param tableData the table data
+<span class='line'>332</span>  * @param x the x coordinate of the cell
+<span class='line'>333</span>  * @param y the y coordinate of the cell
+<span class='line'>334</span>  * @return the cell data or null if not found
+<span class='line'>335</span>  */</span><span class="WHIT">
+<span class='line'>336</span> </span><span class="NAME">View.prototype.TableNode.getCellData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">tableData</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>337</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">cellData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>338</span> </span><span class="WHIT">	
+<span class='line'>339</span> 	</span><span class="COMM">//get the column the cell is in</span><span class="WHIT">
+<span class='line'>340</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tableColumn</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">tableData</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>341</span> </span><span class="WHIT">	
+<span class='line'>342</span> 	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">tableColumn</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>343</span> </span><span class="WHIT">		
+<span class='line'>344</span> 		</span><span class="COMM">//get the cell</span><span class="WHIT">
+<span class='line'>345</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tableCell</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">tableColumn</span><span class="PUNC">[</span><span class="NAME">y</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>346</span> </span><span class="WHIT">		
+<span class='line'>347</span> 		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">tableCell</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>348</span> </span><span class="WHIT">			</span><span class="NAME">cellData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">tableCell</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>349</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>350</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>351</span> </span><span class="WHIT">	
+<span class='line'>352</span> 	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">cellData</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>353</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>354</span> 
+<span class='line'>355</span> </span><span class="COMM">/**
+<span class='line'>356</span>  * Update the value of a field for a given cell
+<span class='line'>357</span>  * @param tableData the table data
+<span class='line'>358</span>  * @param x the x coordinate of the cell
+<span class='line'>359</span>  * @param y the y coordinate of the cell
+<span class='line'>360</span>  * @param fieldName the field name
+<span class='line'>361</span>  * @param fieldValue the value to set into the field
+<span class='line'>362</span>  */</span><span class="WHIT">
+<span class='line'>363</span> </span><span class="NAME">View.prototype.TableNode.updateCellDataValue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">tableData</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fieldName</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fieldValue</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>364</span> </span><span class="WHIT">	</span><span class="COMM">//get the column</span><span class="WHIT">
+<span class='line'>365</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tableColumn</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">tableData</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>366</span> </span><span class="WHIT">	
+<span class='line'>367</span> 	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">tableColumn</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>368</span> </span><span class="WHIT">		</span><span class="COMM">//column does not exist so we will make it</span><span class="WHIT">
+<span class='line'>369</span> </span><span class="WHIT">		</span><span class="NAME">tableData</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>370</span> </span><span class="WHIT">		
+<span class='line'>371</span> 		</span><span class="COMM">//create a new cell</span><span class="WHIT">
+<span class='line'>372</span> </span><span class="WHIT">		</span><span class="NAME">tableData</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">y</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getCellWithDefaultValues</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>373</span> </span><span class="WHIT">		
+<span class='line'>374</span> 		</span><span class="COMM">//set the value</span><span class="WHIT">
+<span class='line'>375</span> </span><span class="WHIT">		</span><span class="NAME">tableData</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">y</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">fieldName</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fieldValue</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>376</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>377</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tableCell</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">tableColumn</span><span class="PUNC">[</span><span class="NAME">y</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>378</span> </span><span class="WHIT">		
+<span class='line'>379</span> 		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">tableCell</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>380</span> </span><span class="WHIT">			</span><span class="COMM">//cell does not exist so we will make it</span><span class="WHIT">
+<span class='line'>381</span> </span><span class="WHIT">			</span><span class="NAME">tableColumn</span><span class="PUNC">[</span><span class="NAME">y</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getCellWithDefaultValues</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>382</span> </span><span class="WHIT">			
+<span class='line'>383</span> 			</span><span class="COMM">//set the value</span><span class="WHIT">
+<span class='line'>384</span> </span><span class="WHIT">			</span><span class="NAME">tableColumn</span><span class="PUNC">[</span><span class="NAME">y</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">fieldName</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fieldValue</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>385</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>386</span> </span><span class="WHIT">			</span><span class="COMM">//set the value</span><span class="WHIT">
+<span class='line'>387</span> </span><span class="WHIT">			</span><span class="NAME">tableCell</span><span class="PUNC">[</span><span class="NAME">fieldName</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fieldValue</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>388</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>389</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>390</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>391</span> 
+<span class='line'>392</span> </span><span class="COMM">/**
+<span class='line'>393</span>  * Called when the author changes the number of rows
+<span class='line'>394</span>  * @param the new number of rows
+<span class='line'>395</span>  */</span><span class="WHIT">
+<span class='line'>396</span> </span><span class="NAME">View.prototype.TableNode.truncateRows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">numRows</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>397</span> </span><span class="WHIT">	</span><span class="COMM">//get the previous number of rows</span><span class="WHIT">
+<span class='line'>398</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tableDataNumRows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.content.numRows</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>399</span> </span><span class="WHIT">	
+<span class='line'>400</span> 	</span><span class="COMM">//get the dif in the number of rows</span><span class="WHIT">
+<span class='line'>401</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dif</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">tableDataNumRows</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">numRows</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>402</span> </span><span class="WHIT">	
+<span class='line'>403</span> 	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">dif</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>404</span> </span><span class="WHIT">		</span><span class="COMM">//we need to remove some rows</span><span class="WHIT">
+<span class='line'>405</span> </span><span class="WHIT">		
+<span class='line'>406</span> 		</span><span class="COMM">//loop through all the columns</span><span class="WHIT">
+<span class='line'>407</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">&lt;</span><span class="NAME">this.content.tableData.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>408</span> </span><span class="WHIT">			</span><span class="COMM">//get a column</span><span class="WHIT">
+<span class='line'>409</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tableColumn</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.content.tableData</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>410</span> </span><span class="WHIT">			
+<span class='line'>411</span> 			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">tableColumn</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>412</span> </span><span class="WHIT">				</span><span class="COMM">//truncate the column down to the new number of rows</span><span class="WHIT">
+<span class='line'>413</span> </span><span class="WHIT">				</span><span class="NAME">tableColumn.splice</span><span class="PUNC">(</span><span class="NAME">numRows</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">dif</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>414</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>415</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">		
+<span class='line'>416</span> 	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>417</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>418</span> 
+<span class='line'>419</span> </span><span class="COMM">/**
+<span class='line'>420</span>  * Called when the author changes the number of columns
+<span class='line'>421</span>  * @param numColumns the new number of columns
+<span class='line'>422</span>  */</span><span class="WHIT">
+<span class='line'>423</span> </span><span class="NAME">View.prototype.TableNode.truncateColumns</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">numColumns</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>424</span> </span><span class="WHIT">	</span><span class="COMM">//get the previous number of columns</span><span class="WHIT">
+<span class='line'>425</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tableDataNumColumns</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.content.numColumns</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>426</span> </span><span class="WHIT">	
+<span class='line'>427</span> 	</span><span class="COMM">//get the dif in the number of columns</span><span class="WHIT">
+<span class='line'>428</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dif</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">tableDataNumColumns</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">numColumns</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>429</span> </span><span class="WHIT">	
+<span class='line'>430</span> 	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">dif</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>431</span> </span><span class="WHIT">		</span><span class="COMM">//we need to remove  some columns</span><span class="WHIT">
+<span class='line'>432</span> </span><span class="WHIT">		</span><span class="NAME">this.content.tableData.splice</span><span class="PUNC">(</span><span class="NAME">numColumns</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">dif</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">		
+<span class='line'>433</span> 	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>434</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>435</span> 
+<span class='line'>436</span> </span><span class="COMM">/**
+<span class='line'>437</span>  * Get the array of common components which is an array with
+<span class='line'>438</span>  * string elements being the name of the common component
+<span class='line'>439</span>  * 
+<span class='line'>440</span>  * TODO: rename TemplateNode
+<span class='line'>441</span>  */</span><span class="WHIT">
+<span class='line'>442</span> </span><span class="NAME">View.prototype.TableNode.getCommonComponents</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>443</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.commonComponents</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>444</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>445</span> 
+<span class='line'>446</span> </span><span class="COMM">/**
+<span class='line'>447</span>  * Updates this content object when requested, usually when preview is to be refreshed
+<span class='line'>448</span>  * 
+<span class='line'>449</span>  * TODO: rename TemplateNode
+<span class='line'>450</span>  */</span><span class="WHIT">
+<span class='line'>451</span> </span><span class="NAME">View.prototype.TableNode.updateContent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>452</span> </span><span class="WHIT">	</span><span class="COMM">/* update content object */</span><span class="WHIT">
+<span class='line'>453</span> </span><span class="WHIT">	</span><span class="NAME">this.view.activeContent.setContent</span><span class="PUNC">(</span><span class="NAME">this.content</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>454</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>455</span> 
+<span class='line'>456</span> </span><span class="COMM">/**
+<span class='line'>457</span>  * Populate the authoring textareas where the user types the prompts that
+<span class='line'>458</span>  * the student will read
+<span class='line'>459</span>  * 
+<span class='line'>460</span>  * TODO: rename TemplateNode
+<span class='line'>461</span>  */</span><span class="WHIT">
+<span class='line'>462</span> </span><span class="NAME">View.prototype.TableNode.populatePrompts</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>463</span> </span><span class="WHIT">	</span><span class="COMM">//get the prompts from the content and set it into the authoring textareas</span><span class="WHIT">
+<span class='line'>464</span> </span><span class="WHIT">	</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#promptTextArea'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="NAME">this.content.prompt</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>465</span> </span><span class="WHIT">	</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#prompt2TextArea'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="NAME">this.content.prompt2</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>466</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>467</span> 
+<span class='line'>468</span> </span><span class="COMM">/**
+<span class='line'>469</span>  * Populate the starter sentence textarea
+<span class='line'>470</span>  */</span><span class="WHIT">
+<span class='line'>471</span> </span><span class="NAME">View.prototype.TableNode.populateStarterSentence</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>472</span> </span><span class="WHIT">	</span><span class="COMM">//get the prompts from the content and set it into the authoring textareas</span><span class="WHIT">
+<span class='line'>473</span> </span><span class="WHIT">	</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#starterSentenceTextArea'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="NAME">this.content.starterSentence</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>474</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>475</span> 
+<span class='line'>476</span> </span><span class="COMM">/**
+<span class='line'>477</span>  * Updates the content's prompt to match that of what the user input
+<span class='line'>478</span>  * 
+<span class='line'>479</span>  * TODO: rename TemplateNode
+<span class='line'>480</span>  */</span><span class="WHIT">
+<span class='line'>481</span> </span><span class="NAME">View.prototype.TableNode.updatePrompt</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>482</span> </span><span class="WHIT">	</span><span class="COMM">/* update content */</span><span class="WHIT">
+<span class='line'>483</span> </span><span class="WHIT">	</span><span class="NAME">this.content.prompt</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementById</span><span class="PUNC">(</span><span class="STRN">'promptTextArea'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>484</span> </span><span class="WHIT">	
+<span class='line'>485</span> 	</span><span class="COMM">/*
+<span class='line'>486</span> 	 * fire source updated event, this will update the preview
+<span class='line'>487</span> 	 */</span><span class="WHIT">
+<span class='line'>488</span> </span><span class="WHIT">	</span><span class="NAME">this.view.eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'sourceUpdated'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>489</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>490</span> 
+<span class='line'>491</span> </span><span class="COMM">/**
+<span class='line'>492</span>  * Update the prompt2 in the content
+<span class='line'>493</span>  */</span><span class="WHIT">
+<span class='line'>494</span> </span><span class="NAME">View.prototype.TableNode.updatePrompt2</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>495</span> </span><span class="WHIT">	</span><span class="COMM">//update content</span><span class="WHIT">
+<span class='line'>496</span> </span><span class="WHIT">	</span><span class="NAME">this.content.prompt2</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#prompt2TextArea'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>497</span> </span><span class="WHIT">	
+<span class='line'>498</span> 	</span><span class="COMM">//fire source updated event, this will update the preview</span><span class="WHIT">
+<span class='line'>499</span> </span><span class="WHIT">	</span><span class="NAME">this.view.eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'sourceUpdated'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>500</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>501</span> 
+<span class='line'>502</span> </span><span class="COMM">/**
+<span class='line'>503</span>  * Update the starter sentence in the content
+<span class='line'>504</span>  */</span><span class="WHIT">
+<span class='line'>505</span> </span><span class="NAME">View.prototype.TableNode.updateStarterSentence</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>506</span> </span><span class="WHIT">	</span><span class="COMM">//update the content</span><span class="WHIT">
+<span class='line'>507</span> </span><span class="WHIT">	</span><span class="NAME">this.content.starterSentence</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#starterSentenceTextArea'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>508</span> </span><span class="WHIT">	
+<span class='line'>509</span> 	</span><span class="COMM">//fire source updated event, this will update the preview</span><span class="WHIT">
+<span class='line'>510</span> </span><span class="WHIT">	</span><span class="NAME">this.view.eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'sourceUpdated'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>511</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>512</span> 
+<span class='line'>513</span> </span><span class="COMM">/**
+<span class='line'>514</span>  * Update the number of columns since the author has changed the value
+<span class='line'>515</span>  */</span><span class="WHIT">
+<span class='line'>516</span> </span><span class="NAME">View.prototype.TableNode.updateNumColumns</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>517</span> </span><span class="WHIT">	</span><span class="COMM">//get the new number of columns</span><span class="WHIT">
+<span class='line'>518</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">numColumns</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#numColumnsInput'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>519</span> </span><span class="WHIT">	
+<span class='line'>520</span> 	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">numColumns</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>521</span> </span><span class="WHIT">		</span><span class="COMM">/*
+<span class='line'>522</span> 		 * do nothing, this is assuming the author is deleting the value to type in a new value after.
+<span class='line'>523</span> 		 * this function will be called again when the author types in a value
+<span class='line'>524</span> 		 */</span><span class="WHIT">
+<span class='line'>525</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>526</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">isNaN</span><span class="PUNC">(</span><span class="NAME">numColumns</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>527</span> </span><span class="WHIT">			</span><span class="COMM">//message the author that the value is not valid</span><span class="WHIT">
+<span class='line'>528</span> </span><span class="WHIT">			</span><span class="NAME">alert</span><span class="PUNC">(</span><span class="STRN">'Error: Invalid Columns value'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>529</span> </span><span class="WHIT">			
+<span class='line'>530</span> 			</span><span class="COMM">//revert the number of rows value in the text input</span><span class="WHIT">
+<span class='line'>531</span> </span><span class="WHIT">			</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#numColumnsInput'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="NAME">this.content.numColumns</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>532</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>533</span> </span><span class="WHIT">			</span><span class="NAME">numColumns</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">numColumns</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>534</span> </span><span class="WHIT">			
+<span class='line'>535</span> 			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">numColumns</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">this.content.numColumns</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>536</span> </span><span class="WHIT">				
+<span class='line'>537</span> 				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">performUpdate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">confirm</span><span class="PUNC">(</span><span class="STRN">'Are you sure you want to decrease the number of columns? You will lose the data in the columns that will be truncated.'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>538</span> </span><span class="WHIT">				
+<span class='line'>539</span> 				</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">performUpdate</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>540</span> </span><span class="WHIT">					</span><span class="COMM">/*
+<span class='line'>541</span> 					 * the number of columns is less than the previous number
+<span class='line'>542</span> 					 * of columns so we need to remove some columns
+<span class='line'>543</span> 					 */</span><span class="WHIT">
+<span class='line'>544</span> </span><span class="WHIT">					</span><span class="NAME">this.truncateColumns</span><span class="PUNC">(</span><span class="NAME">numColumns</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>545</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>546</span> </span><span class="WHIT">					</span><span class="COMM">//do not update</span><span class="WHIT">
+<span class='line'>547</span> </span><span class="WHIT">					
+<span class='line'>548</span> 					</span><span class="COMM">//revert the number of rows value in the text input</span><span class="WHIT">
+<span class='line'>549</span> </span><span class="WHIT">					</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#numColumnsInput'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="NAME">this.content.numColumns</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>550</span> </span><span class="WHIT">					
+<span class='line'>551</span> 					</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>552</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>553</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>554</span> </span><span class="WHIT">			
+<span class='line'>555</span> 			</span><span class="COMM">//update the number of columns in the content</span><span class="WHIT">
+<span class='line'>556</span> </span><span class="WHIT">			</span><span class="NAME">this.content.numColumns</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">numColumns</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>557</span> </span><span class="WHIT">			
+<span class='line'>558</span> 			</span><span class="COMM">//fill in any new cells in the new columns</span><span class="WHIT">
+<span class='line'>559</span> </span><span class="WHIT">			</span><span class="NAME">this.populateNullCells</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>560</span> </span><span class="WHIT">			
+<span class='line'>561</span> 			</span><span class="COMM">//re-generate the authoring table to reflect the new number of columns</span><span class="WHIT">
+<span class='line'>562</span> </span><span class="WHIT">			</span><span class="NAME">this.updateAuthoringTable</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>563</span> </span><span class="WHIT">			
+<span class='line'>564</span> 			</span><span class="COMM">//fire source updated event, this will update the preview</span><span class="WHIT">
+<span class='line'>565</span> </span><span class="WHIT">			</span><span class="NAME">this.view.eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'sourceUpdated'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">			
+<span class='line'>566</span> 		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>567</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>568</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>569</span> 
+<span class='line'>570</span> </span><span class="COMM">/**
+<span class='line'>571</span>  * Update the number of rows since the author has changed the value
+<span class='line'>572</span>  */</span><span class="WHIT">
+<span class='line'>573</span> </span><span class="NAME">View.prototype.TableNode.updateNumRows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>574</span> </span><span class="WHIT">	</span><span class="COMM">//get the new number of rows</span><span class="WHIT">
+<span class='line'>575</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">numRows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#numRowsInput'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>576</span> </span><span class="WHIT">	
+<span class='line'>577</span> 	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">numRows</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>578</span> </span><span class="WHIT">		</span><span class="COMM">/*
+<span class='line'>579</span> 		 * do nothing, this is assuming the author is deleting the value to type in a new value after.
+<span class='line'>580</span> 		 * this function will be called again when the author types in a value
+<span class='line'>581</span> 		 */</span><span class="WHIT">
+<span class='line'>582</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>583</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">isNaN</span><span class="PUNC">(</span><span class="NAME">numRows</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>584</span> </span><span class="WHIT">			</span><span class="COMM">//message the author that the value is not valid</span><span class="WHIT">
+<span class='line'>585</span> </span><span class="WHIT">			</span><span class="NAME">alert</span><span class="PUNC">(</span><span class="STRN">'Error: Invalid Rows value'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>586</span> </span><span class="WHIT">			
+<span class='line'>587</span> 			</span><span class="COMM">//revert the number of rows value in the text input</span><span class="WHIT">
+<span class='line'>588</span> </span><span class="WHIT">			</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#numRowsInput'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="NAME">this.content.numRows</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>589</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>590</span> </span><span class="WHIT">			</span><span class="NAME">numRows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">numRows</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>591</span> </span><span class="WHIT">			
+<span class='line'>592</span> 			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">numRows</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">this.content.numRows</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>593</span> </span><span class="WHIT">				
+<span class='line'>594</span> 				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">performUpdate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">confirm</span><span class="PUNC">(</span><span class="STRN">'Are you sure you want to decrease the number of rows? You will lose the data in the rows that will be truncated.'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>595</span> </span><span class="WHIT">				
+<span class='line'>596</span> 				</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">performUpdate</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>597</span> </span><span class="WHIT">					</span><span class="COMM">/*
+<span class='line'>598</span> 					 * the number of rows is less than the previous number
+<span class='line'>599</span> 					 * of rows so we need to remove some rows
+<span class='line'>600</span> 					 */</span><span class="WHIT">
+<span class='line'>601</span> </span><span class="WHIT">					</span><span class="NAME">this.truncateRows</span><span class="PUNC">(</span><span class="NAME">numRows</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">			
+<span class='line'>602</span> 				</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>603</span> </span><span class="WHIT">					</span><span class="COMM">//do not update</span><span class="WHIT">
+<span class='line'>604</span> </span><span class="WHIT">					
+<span class='line'>605</span> 					</span><span class="COMM">//revert the number of rows value in the text input</span><span class="WHIT">
+<span class='line'>606</span> </span><span class="WHIT">					</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#numRowsInput'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="NAME">this.content.numRows</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>607</span> </span><span class="WHIT">					
+<span class='line'>608</span> 					</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>609</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>610</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>611</span> </span><span class="WHIT">			
+<span class='line'>612</span> 			</span><span class="COMM">//update the number of rows in the content</span><span class="WHIT">
+<span class='line'>613</span> </span><span class="WHIT">			</span><span class="NAME">this.content.numRows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">numRows</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>614</span> </span><span class="WHIT">			
+<span class='line'>615</span> 			</span><span class="COMM">//fill in any new cells in the new rows</span><span class="WHIT">
+<span class='line'>616</span> </span><span class="WHIT">			</span><span class="NAME">this.populateNullCells</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>617</span> </span><span class="WHIT">			
+<span class='line'>618</span> 			</span><span class="COMM">//re-generate the authoring table to reflect the new number of rows</span><span class="WHIT">
+<span class='line'>619</span> </span><span class="WHIT">			</span><span class="NAME">this.updateAuthoringTable</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>620</span> </span><span class="WHIT">			
+<span class='line'>621</span> 			</span><span class="COMM">//fire source updated event, this will update the preview</span><span class="WHIT">
+<span class='line'>622</span> </span><span class="WHIT">			</span><span class="NAME">this.view.eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'sourceUpdated'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">			
+<span class='line'>623</span> 		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>624</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>625</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>626</span> 
+<span class='line'>627</span> </span><span class="COMM">/**
+<span class='line'>628</span>  * Update the global cell size in the content
+<span class='line'>629</span>  */</span><span class="WHIT">
+<span class='line'>630</span> </span><span class="NAME">View.prototype.TableNode.updateGlobalCellSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>631</span> </span><span class="WHIT">	</span><span class="COMM">//get the global cell size the user has input</span><span class="WHIT">
+<span class='line'>632</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">globalCellSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#globalCellSizeInput'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>633</span> </span><span class="WHIT">	
+<span class='line'>634</span> 	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">globalCellSize</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>635</span> </span><span class="WHIT">		</span><span class="COMM">//the user has input an empty string</span><span class="WHIT">
+<span class='line'>636</span> </span><span class="WHIT">		
+<span class='line'>637</span> 		</span><span class="COMM">//set the global cell size into the content</span><span class="WHIT">
+<span class='line'>638</span> </span><span class="WHIT">		</span><span class="NAME">this.content.globalCellSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">globalCellSize</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>639</span> </span><span class="WHIT">		
+<span class='line'>640</span> 		</span><span class="COMM">//save the content</span><span class="WHIT">
+<span class='line'>641</span> </span><span class="WHIT">		</span><span class="NAME">this.view.eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'sourceUpdated'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>642</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">isNaN</span><span class="PUNC">(</span><span class="NAME">globalCellSize</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>643</span> </span><span class="WHIT">		</span><span class="COMM">//the user has input a number</span><span class="WHIT">
+<span class='line'>644</span> </span><span class="WHIT">		
+<span class='line'>645</span> 		</span><span class="COMM">//parse the string into a number</span><span class="WHIT">
+<span class='line'>646</span> </span><span class="WHIT">		</span><span class="NAME">globalCellSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">globalCellSize</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>647</span> </span><span class="WHIT">		
+<span class='line'>648</span> 		</span><span class="COMM">//set the global cell size in the content</span><span class="WHIT">
+<span class='line'>649</span> </span><span class="WHIT">		</span><span class="NAME">this.content.globalCellSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">globalCellSize</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>650</span> </span><span class="WHIT">		
+<span class='line'>651</span> 		</span><span class="COMM">//save the content</span><span class="WHIT">
+<span class='line'>652</span> </span><span class="WHIT">		</span><span class="NAME">this.view.eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'sourceUpdated'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>653</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>654</span> </span><span class="WHIT">		</span><span class="COMM">//the user has input a value that is not a number</span><span class="WHIT">
+<span class='line'>655</span> </span><span class="WHIT">		</span><span class="NAME">alert</span><span class="PUNC">(</span><span class="STRN">'Error: Invalid Global Cell Size value'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>656</span> </span><span class="WHIT">		
+<span class='line'>657</span> 		</span><span class="COMM">//revert the global cell size value in the text input</span><span class="WHIT">
+<span class='line'>658</span> </span><span class="WHIT">		</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#globalCellSizeInput'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="NAME">this.content.globalCellSize</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>659</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>660</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>661</span> 
+<span class='line'>662</span> </span><span class="COMM">/**
+<span class='line'>663</span>  * Update the text in the cell
+<span class='line'>664</span>  * @param args an object containing the x and y values of the cell
+<span class='line'>665</span>  * to update
+<span class='line'>666</span>  */</span><span class="WHIT">
+<span class='line'>667</span> </span><span class="NAME">View.prototype.TableNode.updateCellText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">args</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>668</span> </span><span class="WHIT">	</span><span class="COMM">//get the x and y values of the cell to update</span><span class="WHIT">
+<span class='line'>669</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">args.x</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>670</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">args.y</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>671</span> </span><span class="WHIT">	
+<span class='line'>672</span> 	</span><span class="COMM">//get the text in the cell from the authoring table</span><span class="WHIT">
+<span class='line'>673</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">cellTextValue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#cellTextInput_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'-'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>674</span> </span><span class="WHIT">	
+<span class='line'>675</span> 	</span><span class="COMM">//get the table data</span><span class="WHIT">
+<span class='line'>676</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tableData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.content.tableData</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>677</span> </span><span class="WHIT">	
+<span class='line'>678</span> 	</span><span class="COMM">//update the text value in the cell in the content</span><span class="WHIT">
+<span class='line'>679</span> </span><span class="WHIT">	</span><span class="NAME">this.updateCellDataValue</span><span class="PUNC">(</span><span class="NAME">tableData</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'text'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cellTextValue</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>680</span> </span><span class="WHIT">	
+<span class='line'>681</span> 	</span><span class="COMM">//fire source updated event, this will update the preview</span><span class="WHIT">
+<span class='line'>682</span> </span><span class="WHIT">	</span><span class="NAME">this.view.eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'sourceUpdated'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>683</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>684</span> 
+<span class='line'>685</span> </span><span class="COMM">/**
+<span class='line'>686</span>  * Update the uneditable value of the cell
+<span class='line'>687</span>  * @param args an object containing the x and y values of the cell
+<span class='line'>688</span>  * to update
+<span class='line'>689</span>  */</span><span class="WHIT">
+<span class='line'>690</span> </span><span class="NAME">View.prototype.TableNode.updateCellUneditable</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">args</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>691</span> </span><span class="WHIT">	</span><span class="COMM">//get the x and y values of the cell to update</span><span class="WHIT">
+<span class='line'>692</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">args.x</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>693</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">args.y</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>694</span> </span><span class="WHIT">	
+<span class='line'>695</span> 	</span><span class="COMM">//get the value of the checkbox from the authoring table</span><span class="WHIT">
+<span class='line'>696</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">cellUneditableValue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#cellUneditableCheckBox_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'-'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">'checked'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>697</span> </span><span class="WHIT">	
+<span class='line'>698</span> 	</span><span class="COMM">//change the value to a boolean</span><span class="WHIT">
+<span class='line'>699</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">cellUneditableValue</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'checked'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>700</span> </span><span class="WHIT">		</span><span class="NAME">cellUneditableValue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>701</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>702</span> </span><span class="WHIT">		</span><span class="NAME">cellUneditableValue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>703</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>704</span> </span><span class="WHIT">	
+<span class='line'>705</span> 	</span><span class="COMM">//get the table data</span><span class="WHIT">
+<span class='line'>706</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tableData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.content.tableData</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>707</span> </span><span class="WHIT">	
+<span class='line'>708</span> 	</span><span class="COMM">//update the uneditable value in the cell in the content</span><span class="WHIT">
+<span class='line'>709</span> </span><span class="WHIT">	</span><span class="NAME">this.updateCellDataValue</span><span class="PUNC">(</span><span class="NAME">tableData</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'uneditable'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cellUneditableValue</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>710</span> </span><span class="WHIT">	
+<span class='line'>711</span> 	</span><span class="COMM">//fire source updated event, this will update the preview</span><span class="WHIT">
+<span class='line'>712</span> </span><span class="WHIT">	</span><span class="NAME">this.view.eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'sourceUpdated'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>713</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>714</span> 
+<span class='line'>715</span> </span><span class="COMM">/**
+<span class='line'>716</span>  * Update the cell size for a specific cell in the content
+<span class='line'>717</span>  */</span><span class="WHIT">
+<span class='line'>718</span> </span><span class="NAME">View.prototype.TableNode.updateCellSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">args</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>719</span> </span><span class="WHIT">	</span><span class="COMM">//get the x and y values of the cell to update</span><span class="WHIT">
+<span class='line'>720</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">args.x</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>721</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">args.y</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>722</span> </span><span class="WHIT">	
+<span class='line'>723</span> 	</span><span class="COMM">//get the value of the checkbox from the authoring table</span><span class="WHIT">
+<span class='line'>724</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">cellSizeValue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#cellSizeInput_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'-'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>725</span> </span><span class="WHIT">	
+<span class='line'>726</span> 	</span><span class="COMM">//get the table data</span><span class="WHIT">
+<span class='line'>727</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tableData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.content.tableData</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>728</span> </span><span class="WHIT">	
+<span class='line'>729</span> 	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">cellSizeValue</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">''</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">isNaN</span><span class="PUNC">(</span><span class="NAME">cellSizeValue</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>730</span> </span><span class="WHIT">		</span><span class="COMM">//update the cell size value for the cell in the content</span><span class="WHIT">
+<span class='line'>731</span> </span><span class="WHIT">		</span><span class="NAME">this.updateCellDataValue</span><span class="PUNC">(</span><span class="NAME">tableData</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'cellSize'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cellSizeValue</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>732</span> </span><span class="WHIT">		
+<span class='line'>733</span> 		</span><span class="COMM">//fire source updated event, this will update the preview</span><span class="WHIT">
+<span class='line'>734</span> </span><span class="WHIT">		</span><span class="NAME">this.view.eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'sourceUpdated'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>735</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>736</span> </span><span class="WHIT">		</span><span class="COMM">//message the author that the value is not valid</span><span class="WHIT">
+<span class='line'>737</span> </span><span class="WHIT">		</span><span class="NAME">alert</span><span class="PUNC">(</span><span class="STRN">'Error: Invalid Cell Size value'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>738</span> </span><span class="WHIT">		
+<span class='line'>739</span> 		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">cellSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>740</span> </span><span class="WHIT">		
+<span class='line'>741</span> 		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">tableData</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">tableData</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">tableData</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">y</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>742</span> </span><span class="WHIT">			</span><span class="COMM">//get the previous cell size</span><span class="WHIT">
+<span class='line'>743</span> </span><span class="WHIT">			</span><span class="NAME">cellSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">tableData</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">y</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">cellSize</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>744</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>745</span> </span><span class="WHIT">		
+<span class='line'>746</span> 		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">cellSize</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>747</span> </span><span class="WHIT">			</span><span class="NAME">cellSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>748</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>749</span> </span><span class="WHIT">		
+<span class='line'>750</span> 		</span><span class="COMM">//revert the cell size in the authoring text input</span><span class="WHIT">
+<span class='line'>751</span> </span><span class="WHIT">		</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#cellSizeInput_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'-'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="NAME">cellSize</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>752</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>753</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>754</span> 
+<span class='line'>755</span> </span><span class="COMM">/**
+<span class='line'>756</span>  * Insert a column into the table
+<span class='line'>757</span>  * @param args an object containing the x position to insert
+<span class='line'>758</span>  * the column into
+<span class='line'>759</span>  */</span><span class="WHIT">
+<span class='line'>760</span> </span><span class="NAME">View.prototype.TableNode.tableInsertColumn</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">args</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>761</span> </span><span class="WHIT">	</span><span class="COMM">//get the x position to insert the column into</span><span class="WHIT">
+<span class='line'>762</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">args.x</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>763</span> </span><span class="WHIT">	
+<span class='line'>764</span> 	</span><span class="COMM">/*
+<span class='line'>765</span> 	 * insert null into the table data as a place holder for the
+<span class='line'>766</span> 	 * column we have just inserted
+<span class='line'>767</span> 	 */</span><span class="WHIT">
+<span class='line'>768</span> </span><span class="WHIT">	</span><span class="NAME">this.content.tableData.splice</span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>769</span> </span><span class="WHIT">	
+<span class='line'>770</span> 	</span><span class="COMM">//update the number of columns</span><span class="WHIT">
+<span class='line'>771</span> </span><span class="WHIT">	</span><span class="NAME">this.content.numColumns</span><span class="PUNC">++</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>772</span> </span><span class="WHIT">	
+<span class='line'>773</span> 	</span><span class="COMM">//update the number of columns in the authoring columns text input</span><span class="WHIT">
+<span class='line'>774</span> </span><span class="WHIT">	</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#numColumnsInput'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="NAME">this.content.numColumns</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>775</span> </span><span class="WHIT">	
+<span class='line'>776</span> 	</span><span class="COMM">//fill in the cells of the new column we just inserted</span><span class="WHIT">
+<span class='line'>777</span> </span><span class="WHIT">	</span><span class="NAME">this.populateNullCells</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>778</span> </span><span class="WHIT">	
+<span class='line'>779</span> 	</span><span class="COMM">//re-generate the authoring table</span><span class="WHIT">
+<span class='line'>780</span> </span><span class="WHIT">	</span><span class="NAME">this.updateAuthoringTable</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>781</span> </span><span class="WHIT">	
+<span class='line'>782</span> 	</span><span class="COMM">//fire source updated event, this will update the preview</span><span class="WHIT">
+<span class='line'>783</span> </span><span class="WHIT">	</span><span class="NAME">this.view.eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'sourceUpdated'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>784</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>785</span> 
+<span class='line'>786</span> </span><span class="COMM">/**
+<span class='line'>787</span>  * Delete a column from the table
+<span class='line'>788</span>  * @param args an object containing the x position to delete
+<span class='line'>789</span>  */</span><span class="WHIT">
+<span class='line'>790</span> </span><span class="NAME">View.prototype.TableNode.tableDeleteColumn</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">args</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>791</span> </span><span class="WHIT">	</span><span class="COMM">//ask the author if they are sure</span><span class="WHIT">
+<span class='line'>792</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">performDelete</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">confirm</span><span class="PUNC">(</span><span class="STRN">'Are you sure you want to delete this column?'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>793</span> </span><span class="WHIT">	
+<span class='line'>794</span> 	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">performDelete</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>795</span> </span><span class="WHIT">		</span><span class="COMM">//get the x position to delete the column from</span><span class="WHIT">
+<span class='line'>796</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">args.x</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>797</span> </span><span class="WHIT">		
+<span class='line'>798</span> 		</span><span class="COMM">//remove the column</span><span class="WHIT">
+<span class='line'>799</span> </span><span class="WHIT">		</span><span class="NAME">this.content.tableData.splice</span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>800</span> </span><span class="WHIT">		
+<span class='line'>801</span> 		</span><span class="COMM">//update the number of columns</span><span class="WHIT">
+<span class='line'>802</span> </span><span class="WHIT">		</span><span class="NAME">this.content.numColumns</span><span class="PUNC">--</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>803</span> </span><span class="WHIT">		
+<span class='line'>804</span> 		</span><span class="COMM">//update the number of columns in the authoring columns text input</span><span class="WHIT">
+<span class='line'>805</span> </span><span class="WHIT">		</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#numColumnsInput'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="NAME">this.content.numColumns</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>806</span> </span><span class="WHIT">		
+<span class='line'>807</span> 		</span><span class="COMM">//re-generate the authoring table</span><span class="WHIT">
+<span class='line'>808</span> </span><span class="WHIT">		</span><span class="NAME">this.updateAuthoringTable</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>809</span> </span><span class="WHIT">		
+<span class='line'>810</span> 		</span><span class="COMM">//fire source updated event, this will update the preview</span><span class="WHIT">
+<span class='line'>811</span> </span><span class="WHIT">		</span><span class="NAME">this.view.eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'sourceUpdated'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>812</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>813</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>814</span> 
+<span class='line'>815</span> </span><span class="COMM">/**
+<span class='line'>816</span>  * Insert a row into the table
+<span class='line'>817</span>  * @param args an object containing the y position to insert
+<span class='line'>818</span>  */</span><span class="WHIT">
+<span class='line'>819</span> </span><span class="NAME">View.prototype.TableNode.tableInsertRow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">args</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>820</span> </span><span class="WHIT">	</span><span class="COMM">//get the y position to insert the row into</span><span class="WHIT">
+<span class='line'>821</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">args.y</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>822</span> </span><span class="WHIT">	
+<span class='line'>823</span> 	</span><span class="COMM">//get the table data</span><span class="WHIT">
+<span class='line'>824</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tableData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.content.tableData</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>825</span> </span><span class="WHIT">	
+<span class='line'>826</span> 	</span><span class="COMM">//loop through all the columns</span><span class="WHIT">
+<span class='line'>827</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">&lt;</span><span class="NAME">this.content.numColumns</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>828</span> </span><span class="WHIT">		</span><span class="COMM">//add a cell at x, y</span><span class="WHIT">
+<span class='line'>829</span> </span><span class="WHIT">		</span><span class="NAME">tableData</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">splice</span><span class="PUNC">(</span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.getCellWithDefaultValues</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>830</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>831</span> </span><span class="WHIT">	
+<span class='line'>832</span> 	</span><span class="COMM">//update the number of rows</span><span class="WHIT">
+<span class='line'>833</span> </span><span class="WHIT">	</span><span class="NAME">this.content.numRows</span><span class="PUNC">++</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>834</span> </span><span class="WHIT">	
+<span class='line'>835</span> 	</span><span class="COMM">//update the number of rows in the authoring rows text input</span><span class="WHIT">
+<span class='line'>836</span> </span><span class="WHIT">	</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#numRowsInput'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="NAME">this.content.numRows</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>837</span> </span><span class="WHIT">	
+<span class='line'>838</span> 	</span><span class="COMM">//fill in the cells of the new row we just inserted</span><span class="WHIT">
+<span class='line'>839</span> </span><span class="WHIT">	</span><span class="NAME">this.populateNullCells</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>840</span> </span><span class="WHIT">	
+<span class='line'>841</span> 	</span><span class="COMM">//re-generate the authoring table</span><span class="WHIT">
+<span class='line'>842</span> </span><span class="WHIT">	</span><span class="NAME">this.updateAuthoringTable</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>843</span> </span><span class="WHIT">	
+<span class='line'>844</span> 	</span><span class="COMM">//fire source updated event, this will update the preview</span><span class="WHIT">
+<span class='line'>845</span> </span><span class="WHIT">	</span><span class="NAME">this.view.eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'sourceUpdated'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>846</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>847</span> 
+<span class='line'>848</span> </span><span class="COMM">/**
+<span class='line'>849</span>  * Delete a row into the table
+<span class='line'>850</span>  * @param args an object containing the y position to delete
+<span class='line'>851</span>  */</span><span class="WHIT">
+<span class='line'>852</span> </span><span class="NAME">View.prototype.TableNode.tableDeleteRow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">args</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>853</span> </span><span class="WHIT">	</span><span class="COMM">//ask the author if they are sure</span><span class="WHIT">
+<span class='line'>854</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">performDelete</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">confirm</span><span class="PUNC">(</span><span class="STRN">'Are you sure you want to delete this row?'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>855</span> </span><span class="WHIT">	
+<span class='line'>856</span> 	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">performDelete</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>857</span> </span><span class="WHIT">		</span><span class="COMM">//get the y position to delete the row from</span><span class="WHIT">
+<span class='line'>858</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">args.y</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>859</span> </span><span class="WHIT">		
+<span class='line'>860</span> 		</span><span class="COMM">//get the table data</span><span class="WHIT">
+<span class='line'>861</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tableData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.content.tableData</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>862</span> </span><span class="WHIT">		
+<span class='line'>863</span> 		</span><span class="COMM">//loop through all the columns</span><span class="WHIT">
+<span class='line'>864</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">&lt;</span><span class="NAME">this.content.numColumns</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>865</span> </span><span class="WHIT">			</span><span class="COMM">//remove the cell at x, y</span><span class="WHIT">
+<span class='line'>866</span> </span><span class="WHIT">			</span><span class="NAME">tableData</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">splice</span><span class="PUNC">(</span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>867</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>868</span> </span><span class="WHIT">		
+<span class='line'>869</span> 		</span><span class="COMM">//update the number of rows</span><span class="WHIT">
+<span class='line'>870</span> </span><span class="WHIT">		</span><span class="NAME">this.content.numRows</span><span class="PUNC">--</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>871</span> </span><span class="WHIT">		
+<span class='line'>872</span> 		</span><span class="COMM">//update the number of rows in the authoring rows text input</span><span class="WHIT">
+<span class='line'>873</span> </span><span class="WHIT">		</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#numRowsInput'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="NAME">this.content.numRows</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>874</span> </span><span class="WHIT">		
+<span class='line'>875</span> 		</span><span class="COMM">//re-generate the authoring table</span><span class="WHIT">
+<span class='line'>876</span> </span><span class="WHIT">		</span><span class="NAME">this.updateAuthoringTable</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>877</span> </span><span class="WHIT">		
+<span class='line'>878</span> 		</span><span class="COMM">//fire source updated event, this will update the preview</span><span class="WHIT">
+<span class='line'>879</span> </span><span class="WHIT">		</span><span class="NAME">this.view.eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'sourceUpdated'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">		
+<span class='line'>880</span> 	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>881</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>882</span> 
+<span class='line'>883</span> </span><span class="COMM">/**
+<span class='line'>884</span>  * Populate any cells with the default cell values if the
+<span class='line'>885</span>  * cell is null
+<span class='line'>886</span>  */</span><span class="WHIT">
+<span class='line'>887</span> </span><span class="NAME">View.prototype.TableNode.populateNullCells</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>888</span> </span><span class="WHIT">	</span><span class="COMM">//get the table data</span><span class="WHIT">
+<span class='line'>889</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tableData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.content.tableData</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>890</span> </span><span class="WHIT">	
+<span class='line'>891</span> 	</span><span class="COMM">//loop through the columns</span><span class="WHIT">
+<span class='line'>892</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">&lt;</span><span class="NAME">this.content.numColumns</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>893</span> </span><span class="WHIT">		
+<span class='line'>894</span> 		</span><span class="COMM">//try to get the column</span><span class="WHIT">
+<span class='line'>895</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">tableData</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>896</span> </span><span class="WHIT">			</span><span class="COMM">//column does not exist so we will make it</span><span class="WHIT">
+<span class='line'>897</span> </span><span class="WHIT">			</span><span class="NAME">tableData</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>898</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>899</span> </span><span class="WHIT">		
+<span class='line'>900</span> 		</span><span class="COMM">//loop through all the rows for this column</span><span class="WHIT">
+<span class='line'>901</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">&lt;</span><span class="NAME">this.content.numRows</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>902</span> </span><span class="WHIT">			</span><span class="COMM">//try to get the cell</span><span class="WHIT">
+<span class='line'>903</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">tableData</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">y</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>904</span> </span><span class="WHIT">				</span><span class="COMM">//the cell does not exist so we will populate it</span><span class="WHIT">
+<span class='line'>905</span> </span><span class="WHIT">				</span><span class="NAME">tableData</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">y</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getCellWithDefaultValues</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">				
+<span class='line'>906</span> 			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>907</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>908</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>909</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>910</span> 
+<span class='line'>911</span> </span><span class="COMM">/**
+<span class='line'>912</span>  * Get the default cell object that we will put into the table data
+<span class='line'>913</span>  */</span><span class="WHIT">
+<span class='line'>914</span> </span><span class="NAME">View.prototype.TableNode.getCellWithDefaultValues</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>915</span> </span><span class="WHIT">	</span><span class="COMM">//create a new cell object</span><span class="WHIT">
+<span class='line'>916</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">newCell</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>917</span> </span><span class="WHIT">			</span><span class="NAME">text</span><span class="PUNC">:</span><span class="STRN">""</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>918</span> </span><span class="WHIT">			</span><span class="NAME">uneditable</span><span class="PUNC">:</span><span class="KEYW">false</span><span class="WHIT">
+<span class='line'>919</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>920</span> </span><span class="WHIT">	
+<span class='line'>921</span> 	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">newCell</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>922</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>923</span> 
+<span class='line'>924</span> </span><span class="COMM">/**
+<span class='line'>925</span>  * Update the hideEverythingBelowTable value
+<span class='line'>926</span>  */</span><span class="WHIT">
+<span class='line'>927</span> </span><span class="NAME">View.prototype.TableNode.updateHideEverythingBelowTable</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>928</span> </span><span class="WHIT">	</span><span class="COMM">//get whether it is checked or not</span><span class="WHIT">
+<span class='line'>929</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">hideEverythingBelowTableCheckBoxChecked</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#hideEverythingBelowTableCheckBox'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">'checked'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>930</span> </span><span class="WHIT">	
+<span class='line'>931</span> 	</span><span class="COMM">//change the value into a boolean</span><span class="WHIT">
+<span class='line'>932</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">hideEverythingBelowTableCheckBoxChecked</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'checked'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>933</span> </span><span class="WHIT">		</span><span class="NAME">hideEverythingBelowTableCheckBoxChecked</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">		
+<span class='line'>934</span> 	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>935</span> </span><span class="WHIT">		</span><span class="NAME">hideEverythingBelowTableCheckBoxChecked</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>936</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>937</span> </span><span class="WHIT">	
+<span class='line'>938</span> 	</span><span class="COMM">//set this value to true or false</span><span class="WHIT">
+<span class='line'>939</span> </span><span class="WHIT">	</span><span class="NAME">this.content.hideEverythingBelowTable</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">hideEverythingBelowTableCheckBoxChecked</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>940</span> </span><span class="WHIT">	
+<span class='line'>941</span> 	</span><span class="COMM">//fire source updated event, this will update the preview</span><span class="WHIT">
+<span class='line'>942</span> </span><span class="WHIT">	</span><span class="NAME">this.view.eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'sourceUpdated'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">	
+<span class='line'>943</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>944</span> 
+<span class='line'>945</span> </span><span class="COMM">//used to notify scriptloader that this script has finished loading</span><span class="WHIT">
+<span class='line'>946</span> </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">eventManager</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">'undefined'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>947</span> </span><span class="WHIT">	</span><span class="COMM">/*
+<span class='line'>948</span> 	 * TODO: rename template to your new folder name
+<span class='line'>949</span> 	 * TODO: rename authorview_template
+<span class='line'>950</span> 	 * 
+<span class='line'>951</span> 	 * e.g. if you were creating a quiz step it would look like
+<span class='line'>952</span> 	 * 
+<span class='line'>953</span> 	 * eventManager.fire('scriptLoaded', 'vle/node/quiz/authorview_quiz.js');
+<span class='line'>954</span> 	 */</span><span class="WHIT">
+<span class='line'>955</span> </span><span class="WHIT">	</span><span class="NAME">eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'scriptLoaded'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'vle/node/table/authorview_table.js'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>956</span> </span><span class="PUNC">}</span><span class="PUNC">;</span></pre></body></html>

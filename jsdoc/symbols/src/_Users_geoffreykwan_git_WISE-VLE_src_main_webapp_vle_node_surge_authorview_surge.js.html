@@ -1,0 +1,221 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * Sets the SurgeNode type as an object of this view
+<span class='line'>  3</span>  * @constructor
+<span class='line'>  4</span>  */</span><span class="WHIT">
+<span class='line'>  5</span> </span><span class="NAME">View.prototype.SurgeNode</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  6</span> 
+<span class='line'>  7</span> </span><span class="COMM">/*
+<span class='line'>  8</span>  * Add the name of the common component that this step will use. The
+<span class='line'>  9</span>  * common components will be handled by the authoring tool. You will
+<span class='line'> 10</span>  * need to create div elements with the appropriate id for the
+<span class='line'> 11</span>  * authoring tool to insert the component into. Any additional custom
+<span class='line'> 12</span>  * authoring components specific to your step type will be written 
+<span class='line'> 13</span>  * by you in the generatePage() function. You may leave the array
+<span class='line'> 14</span>  * empty if you are not using any common components.
+<span class='line'> 15</span>  * 
+<span class='line'> 16</span>  * Here are the available common components
+<span class='line'> 17</span>  * 'Prompt'
+<span class='line'> 18</span>  * 'LinkTo'
+<span class='line'> 19</span>  * 'StudentResponseBoxSize'
+<span class='line'> 20</span>  * 'RichTextEditorToggle'
+<span class='line'> 21</span>  * 'StarterSentenceAuthoring'
+<span class='line'> 22</span>  * 
+<span class='line'> 23</span>  * If you use a common components, you must create a div with the
+<span class='line'> 24</span>  * appropriate id, here are the respective ids
+<span class='line'> 25</span>  * 'promptContainer'
+<span class='line'> 26</span>  * (LinkTo does not require a div)
+<span class='line'> 27</span>  * 'studentResponseBoxSizeContainer'
+<span class='line'> 28</span>  * 'richTextEditorToggleContainer'
+<span class='line'> 29</span>  * 'starterSentenceAuthoringContainer'
+<span class='line'> 30</span>  */</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="NAME">View.prototype.SurgeNode.commonComponents</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 32</span> 
+<span class='line'> 33</span> </span><span class="COMM">/**
+<span class='line'> 34</span>  * Generates the authoring page. This function will create the authoring
+<span class='line'> 35</span>  * components such as textareas, radio buttons, check boxes, etc. that
+<span class='line'> 36</span>  * authors will use to author the step. For example if the step has a
+<span class='line'> 37</span>  * text prompt that the student will read, this function will create
+<span class='line'> 38</span>  * a textarea that will allow the author to type the text that the
+<span class='line'> 39</span>  * student will see. You will also need to populate the textarea with
+<span class='line'> 40</span>  * the pre-existing prompt if the step has been authored before.
+<span class='line'> 41</span>  */</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="NAME">View.prototype.SurgeNode.generatePage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">view</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 43</span> 
+<span class='line'> 44</span> </span><span class="WHIT">	
+<span class='line'> 45</span> 	</span><span class="NAME">this.view</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">view</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">	
+<span class='line'> 47</span> 	</span><span class="COMM">//get the content of the step</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">	</span><span class="NAME">this.content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.view.activeContent.getContentJSON</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">	
+<span class='line'> 50</span> 	</span><span class="COMM">//get the html element that all the authoring components will be located</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">parent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementById</span><span class="PUNC">(</span><span class="STRN">'dynamicParent'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">	
+<span class='line'> 53</span> 	</span><span class="COMM">/*
+<span class='line'> 54</span> 	 * wipe out the div that contains the authoring components because it
+<span class='line'> 55</span> 	 * may still be populated with the authoring components from a previous
+<span class='line'> 56</span> 	 * step the author has been authoring since we re-use the div id
+<span class='line'> 57</span> 	 */</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">	</span><span class="NAME">parent.removeChild</span><span class="PUNC">(</span><span class="NAME">document.getElementById</span><span class="PUNC">(</span><span class="STRN">'dynamicPage'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 59</span> 
+<span class='line'> 60</span> </span><span class="WHIT">	</span><span class="COMM">//create a new div that will contain the authroing components</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">pageDiv</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'div'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">id</span><span class="PUNC">:</span><span class="STRN">'dynamicPage'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">style</span><span class="PUNC">:</span><span class="STRN">'width:100%;height:100%'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">			
+<span class='line'> 63</span> 	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">levelStringLabel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createTextNode</span><span class="PUNC">(</span><span class="STRN">"Level String:"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">levelStringTextArea</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'textarea'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'levelStringTextArea'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rows</span><span class="PUNC">:</span><span class="STRN">'20'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cols</span><span class="PUNC">:</span><span class="STRN">'85'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">onchange</span><span class="PUNC">:</span><span class="STRN">"eventManager.fire('surgeUpdateLevelString')"</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">	
+<span class='line'> 66</span> 	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">authoringSwfDiv</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'div'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'authoringSwfDiv'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">	
+<span class='line'> 68</span> 	</span><span class="COMM">//add the authoring components to the page</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">authoringSwfDiv</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">	</span><span class="COMM">//pageDiv.appendChild(createElement(document, 'button', {id:"importLevelButton", value:"import level", onclick:"editorLoaded()"}));</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">createBreak</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">levelStringLabel</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">createBreak</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">levelStringTextArea</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">createBreak</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">	
+<span class='line'> 77</span> 
+<span class='line'> 78</span> 	</span><span class="COMM">//add the page to the parent</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">	</span><span class="NAME">parent.appendChild</span><span class="PUNC">(</span><span class="NAME">pageDiv</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">	
+<span class='line'> 81</span> 	</span><span class="COMM">//$("#dynamicPage").append("&lt;p>Hola&lt;/a>");</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">	
+<span class='line'> 83</span> 	</span><span class="COMM">// append script used to communicate with flash</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">	</span><span class="COMM">/*
+<span class='line'> 85</span> 	var jsFunctions = '&lt;script type="text/javascipt">\nfunction receiveLevelData(value) {\n'+
+<span class='line'> 86</span> 		'alert("receiveleveldata");\n'+
+<span class='line'> 87</span> 	    '//sendDataToGame(value);\n' +
+<span class='line'> 88</span> 	'};\n&lt;/script>\n';
+<span class='line'> 89</span> 	*/</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">	</span><span class="COMM">//$("#dynamicPage").append(jsFunctions);</span><span class="WHIT">
+<span class='line'> 91</span> 
+<span class='line'> 92</span> </span><span class="WHIT">	
+<span class='line'> 93</span> 
+<span class='line'> 94</span> 	 
+<span class='line'> 95</span> 	</span><span class="COMM">/*
+<span class='line'> 96</span> 	// identify the Flash applet in the DOM - Provided by Adobe on a section on their site about the AS3 ExternalInterface usage.
+<span class='line'> 97</span> 	function thisMovie(movieName) {
+<span class='line'> 98</span> 		if (navigator.appName.indexOf("Microsoft") != -1) {
+<span class='line'> 99</span> 			return window[movieName];
+<span class='line'>100</span> 		} else {
+<span class='line'>101</span> 			return document[movieName];
+<span class='line'>102</span> 		}
+<span class='line'>103</span> 	}
+<span class='line'>104</span> 
+<span class='line'>105</span> 
+<span class='line'>106</span> 	// Call as3 function in identified Flash applet
+<span class='line'>107</span> 	function sendDataToGame(value) {
+<span class='line'>108</span> 		// Put the string at the bottom of the page, so I can see easily what data has been sent
+<span class='line'>109</span> 		document.getElementById("outputdiv").innerHTML = "&lt;b>Level Data Sent to Game:&lt;/b> "+value; 
+<span class='line'>110</span> 
+<span class='line'>111</span> 		// Use callback setup at top of this file.
+<span class='line'>112</span> 		thisMovie("surge").sendToGame(value);
+<span class='line'>113</span> 	}
+<span class='line'>114</span> 	*/</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">	
+<span class='line'>116</span> 	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">levelString</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">	
+<span class='line'>118</span> 	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this.content</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">		</span><span class="COMM">//get the existing level string</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">		</span><span class="NAME">levelString</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.content.levelString</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">	
+<span class='line'>123</span> 	</span><span class="COMM">//populate the level string into the textarea</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">	</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#levelStringTextArea'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="NAME">levelString</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">		
+<span class='line'>126</span> 	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">authoringSwfHtml</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'&lt;object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="770" height="480" id="leveleditor" align="middle">'</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">	</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'&lt;param name="allowScriptAccess" value="sameDomain" />'</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">	</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'&lt;param name="allowFullScreen" value="false" />'</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">	</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'&lt;param name="movie" value="/vlewrapper/vle/node/surge/leveleditor.swf" />&lt;param name="quality" value="high" />&lt;param name="bgcolor" value="#ffffff" />	&lt;embed src="/vlewrapper/vle/node/surge/leveleditor.swf" quality="high" bgcolor="#ffffff" width="770" height="480" name="leveleditor" align="middle" allowScriptAccess="sameDomain" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />'</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">	</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'&lt;/object>'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">	
+<span class='line'>132</span> 	</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#authoringSwfDiv'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">html</span><span class="PUNC">(</span><span class="NAME">authoringSwfHtml</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>134</span> 
+<span class='line'>135</span> </span><span class="COMM">/**
+<span class='line'>136</span>  * Imports content.levelString into the leveleditor. Will be called by an event later
+<span class='line'>137</span>  * @param levelString
+<span class='line'>138</span>  * @return
+<span class='line'>139</span>  */</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="NAME">View.prototype.SurgeNode.importLevelStringToEditor</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">	
+<span class='line'>141</span> 	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">levelString</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.content.levelString</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">	</span><span class="NAME">thisMovie</span><span class="PUNC">(</span><span class="STRN">"leveleditor"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">editorImport</span><span class="PUNC">(</span><span class="NAME">levelString</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>144</span> 
+<span class='line'>145</span> </span><span class="COMM">/**
+<span class='line'>146</span>  * Callback (swf->js) for when the leveleditor has been loaded.
+<span class='line'>147</span>  * @return
+<span class='line'>148</span>  */</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">editorLoaded</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">	</span><span class="NAME">eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'surgeImportLevelStringToEditor'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>152</span> 
+<span class='line'>153</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">receiveLevelData</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">	</span><span class="NAME">eventManager.fire</span><span class="PUNC">(</span><span class="STRN">"surgeUpdateLevelString"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>156</span> 
+<span class='line'>157</span> </span><span class="COMM">//identify the Flash applet in the DOM - Provided by Adobe on a section on their site about the AS3 ExternalInterface usage.</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">thisMovie</span><span class="PUNC">(</span><span class="NAME">movieName</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">navigator.appName.indexOf</span><span class="PUNC">(</span><span class="STRN">"Microsoft"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">window</span><span class="PUNC">[</span><span class="NAME">movieName</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">document</span><span class="PUNC">[</span><span class="NAME">movieName</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>165</span> 
+<span class='line'>166</span> 
+<span class='line'>167</span> </span><span class="COMM">// Call as3 function in identified Flash applet</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">sendDataToGame</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">    </span><span class="COMM">// Put the string at the bottom of the page, so I can see easily what data has been sent</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">    </span><span class="COMM">//document.getElementById("outputdiv").innerHTML = "&lt;b>Level Data Sent to Game:&lt;/b> "+value; </span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">    </span><span class="COMM">// Use callback setup at top of this file.</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">   </span><span class="NAME">thisMovie</span><span class="PUNC">(</span><span class="STRN">"surge"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">sendToGame</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>174</span> 
+<span class='line'>175</span> </span><span class="COMM">/**
+<span class='line'>176</span>  * Get the array of common components which is an array with
+<span class='line'>177</span>  * string elements being the name of the common component
+<span class='line'>178</span>  */</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="NAME">View.prototype.SurgeNode.getCommonComponents</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.commonComponents</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>182</span> 
+<span class='line'>183</span> </span><span class="COMM">/**
+<span class='line'>184</span>  * Updates this content object when requested, usually when preview is to be refreshed
+<span class='line'>185</span>  */</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="NAME">View.prototype.SurgeNode.updateContent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">	</span><span class="COMM">/* update content object */</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">	</span><span class="NAME">this.view.activeContent.setContent</span><span class="PUNC">(</span><span class="NAME">this.content</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>190</span> 
+<span class='line'>191</span> 
+<span class='line'>192</span> </span><span class="COMM">/**
+<span class='line'>193</span>  * Updates the content's level string to match that of what the user input
+<span class='line'>194</span>  */</span><span class="WHIT">
+<span class='line'>195</span> </span><span class="NAME">View.prototype.SurgeNode.updateLevelString</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">levelStringIn</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="WHIT">	</span><span class="COMM">/* update content */</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">levelStringIn</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="WHIT">		</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#levelStringTextArea'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="NAME">levelStringIn</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> 
+<span class='line'>200</span> 	
+<span class='line'>201</span> 	</span><span class="COMM">// get the level content from the editor</span><span class="WHIT">
+<span class='line'>202</span> </span><span class="WHIT">	
+<span class='line'>203</span> 	</span><span class="NAME">this.content.levelString</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#levelStringTextArea'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>204</span> </span><span class="WHIT">	
+<span class='line'>205</span> 	</span><span class="COMM">/*
+<span class='line'>206</span> 	 * fire source updated event, this will update the preview
+<span class='line'>207</span> 	 */</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">	</span><span class="NAME">this.view.eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'sourceUpdated'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>210</span> 
+<span class='line'>211</span> </span><span class="COMM">//used to notify scriptloader that this script has finished loading</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">eventManager</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">'undefined'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="WHIT">	</span><span class="NAME">eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'scriptLoaded'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'vle/node/surge/authorview_surge.js'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="PUNC">}</span><span class="PUNC">;</span></pre></body></html>

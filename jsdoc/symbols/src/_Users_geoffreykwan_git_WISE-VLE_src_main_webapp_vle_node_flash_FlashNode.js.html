@@ -1,0 +1,252 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="NAME">FlashNode.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Node</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="NAME">FlashNode.prototype.constructor</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">FlashNode</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="NAME">FlashNode.prototype.parent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Node.prototype</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  4</span> 
+<span class='line'>  5</span> </span><span class="COMM">/*
+<span class='line'>  6</span>  * the name that displays in the authoring tool when the author creates a new step
+<span class='line'>  7</span>  */</span><span class="WHIT">
+<span class='line'>  8</span> </span><span class="NAME">FlashNode.authoringToolName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"Flash"</span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'>  9</span> 
+<span class='line'> 10</span> </span><span class="COMM">/*
+<span class='line'> 11</span>  * will be seen by the author when they add a new step to their project to help
+<span class='line'> 12</span>  * them understand what kind of step this is
+<span class='line'> 13</span>  */</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="NAME">FlashNode.authoringToolDescription</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"Embed Flash content in a WISE step."</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 15</span> 
+<span class='line'> 16</span> </span><span class="COMM">/**
+<span class='line'> 17</span>  * This is the constructor for the Node
+<span class='line'> 18</span>  * @constructor
+<span class='line'> 19</span>  * @extends Node
+<span class='line'> 20</span>  * @param nodeType
+<span class='line'> 21</span>  * @param view
+<span class='line'> 22</span>  */</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">FlashNode</span><span class="PUNC">(</span><span class="NAME">nodeType</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">view</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">	</span><span class="NAME">this.view</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">view</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">	</span><span class="NAME">this.type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nodeType</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">	</span><span class="NAME">this.prevWorkNodeIds</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 28</span> 
+<span class='line'> 29</span> </span><span class="COMM">/**
+<span class='line'> 30</span>  * This function is called when the vle loads the step and parses
+<span class='line'> 31</span>  * the previous student answers, if any, so that it can reload
+<span class='line'> 32</span>  * the student's previous answers into the step.
+<span class='line'> 33</span>  * 
+<span class='line'> 34</span>  * @param stateJSONObj
+<span class='line'> 35</span>  * @return a new state object
+<span class='line'> 36</span>  */</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="NAME">FlashNode.prototype.parseDataJSONObj</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">stateJSONObj</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">FlashState.prototype.parseDataJSONObj</span><span class="PUNC">(</span><span class="NAME">stateJSONObj</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 40</span> 
+<span class='line'> 41</span> </span><span class="COMM">/**
+<span class='line'> 42</span>  * This function is called if there needs to be any special translation
+<span class='line'> 43</span>  * of the student work from the way the student work is stored to a
+<span class='line'> 44</span>  * human readable form. For example if the student work is stored
+<span class='line'> 45</span>  * as an array that contains 3 elements, for example
+<span class='line'> 46</span>  * ["apple", "banana", "orange"]
+<span class='line'> 47</span>  *  
+<span class='line'> 48</span>  * and you wanted to display the student work like this
+<span class='line'> 49</span>  * 
+<span class='line'> 50</span>  * Answer 1: apple
+<span class='line'> 51</span>  * Answer 2: banana
+<span class='line'> 52</span>  * Answer 3: orange
+<span class='line'> 53</span>  * 
+<span class='line'> 54</span>  * you would perform that translation in this function.
+<span class='line'> 55</span>  * 
+<span class='line'> 56</span>  * Note: In most cases you will not have to change the code in this function
+<span class='line'> 57</span>  * 
+<span class='line'> 58</span>  * @param studentWork
+<span class='line'> 59</span>  * @return translated student work
+<span class='line'> 60</span>  */</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="NAME">FlashNode.prototype.translateStudentWork</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">studentWork</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">studentWork</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> 
+<span class='line'> 65</span> </span><span class="COMM">/**
+<span class='line'> 66</span>  * Save student data onExit
+<span class='line'> 67</span>  */</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="NAME">FlashNode.prototype.onExit</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">	</span><span class="COMM">//check if the content panel has been set</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this.contentPanel</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this.contentPanel.save</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">			</span><span class="COMM">//tell the content panel to save</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">			</span><span class="NAME">this.contentPanel.save</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 77</span> 
+<span class='line'> 78</span> </span><span class="COMM">/**
+<span class='line'> 79</span>  * Renders the student work into the div. The grading tool will pass in a
+<span class='line'> 80</span>  * div id to this function and this function will insert the student data
+<span class='line'> 81</span>  * into the div.
+<span class='line'> 82</span>  * 
+<span class='line'> 83</span>  * @param divId the id of the div we will render the student work into
+<span class='line'> 84</span>  * @param nodeVisit the student work
+<span class='line'> 85</span>  * @param childDivIdPrefix (optional) a string that will be prepended to all the 
+<span class='line'> 86</span>  * div ids use this to prevent DOM conflicts such as when the show all work div
+<span class='line'> 87</span>  * uses the same ids as the show flagged work div
+<span class='line'> 88</span>  * @param workgroupId the id of the workgroup this work belongs to
+<span class='line'> 89</span>  * 
+<span class='line'> 90</span>  * Note: you may need to add code to this function if the student
+<span class='line'> 91</span>  * data for your step is complex or requires additional processing.
+<span class='line'> 92</span>  * look at SensorNode.renderGradingView() as an example of a step that
+<span class='line'> 93</span>  * requires additional processing
+<span class='line'> 94</span>  */</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="NAME">FlashNode.prototype.renderGradingView</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">divId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nodeVisit</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">childDivIdPrefix</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">workgroupId</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">gradingText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">	
+<span class='line'> 98</span> 	</span><span class="COMM">//Get the latest student state object for this step</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">flashState</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nodeVisit.getLatestWork</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">response.data</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">	
+<span class='line'>101</span> 	</span><span class="COMM">/*
+<span class='line'>102</span> 	 * get the step work id from the node visit in case we need to use it in
+<span class='line'>103</span> 	 * a DOM id. we don't use it in this case but I have retrieved it in case
+<span class='line'>104</span> 	 * someone does need it. look at SensorNode.js to view an example of
+<span class='line'>105</span> 	 * how one might use it.
+<span class='line'>106</span> 	 */</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">stepWorkId</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nodeVisit.id</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">	
+<span class='line'>109</span> 	</span><span class="COMM">//var studentWork = flashState.getStudentWork();</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">studentWork</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">JSON.stringify</span><span class="PUNC">(</span><span class="NAME">flashState</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">	</span><span class="COMM">// print out the studentWork string</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">	</span><span class="NAME">gradingText</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">studentWork</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">	
+<span class='line'>114</span> 	</span><span class="COMM">//put the student work into the div</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">	</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">divId</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">html</span><span class="PUNC">(</span><span class="NAME">gradingText</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span> 
+<span class='line'>118</span> </span><span class="COMM">/**
+<span class='line'>119</span> * Gets the swf file for the Flash node and inserts into the div, loading student data.
+<span class='line'>120</span> * The grading tool will pass in a div id to this function and this function will insert the student data
+<span class='line'>121</span> * into the div.
+<span class='line'>122</span> * 
+<span class='line'>123</span> * @param divId the id of the div we will render the student work into
+<span class='line'>124</span> * @param nodeVisit the student work
+<span class='line'>125</span> * @param childDivIdPrefix (optional) a string that will be prepended to all the 
+<span class='line'>126</span> * div ids use this to prevent DOM conflicts such as when the show all work div
+<span class='line'>127</span> * uses the same ids as the show flagged work div
+<span class='line'>128</span> * @param workgroupId the id of the workgroup this work belongs to
+<span class='line'>129</span> */</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="NAME">FlashNode.prototype.renderGradingViewFlash</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">divId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nodeVisit</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">childDivIdPrefix</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">workgroupId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nodeContent</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">gradingText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">	
+<span class='line'>133</span> 	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">nodeVisit.getLatestWork</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">response.data</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">"undefined"</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">		</span><span class="NAME">gradingText</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'&lt;div id="alternateContent">&lt;a href="http://www.adobe.com/go/getflashplayer">'</span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">			</span><span class="STRN">'&lt;img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />&lt;/a>&lt;/div>'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">	
+<span class='line'>137</span> 		</span><span class="COMM">//Get the latest student state object for this step</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">flashState</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nodeVisit.getLatestWork</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">response.data</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">		
+<span class='line'>140</span> 		</span><span class="COMM">/*
+<span class='line'>141</span> 		 * get the step work id from the node visit in case we need to use it in
+<span class='line'>142</span> 		 * a DOM id. we don't use it in this case but I have retrieved it in case
+<span class='line'>143</span> 		 * someone does need it. look at SensorNode.js to view an example of
+<span class='line'>144</span> 		 * how one might use it.
+<span class='line'>145</span> 		 */</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">stepWorkId</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nodeVisit.id</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">		
+<span class='line'>148</span> 		</span><span class="COMM">//var studentWork = flashState.getStudentWork();</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">studentWork</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">JSON.stringify</span><span class="PUNC">(</span><span class="NAME">flashState</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">		
+<span class='line'>151</span> 		</span><span class="COMM">//put the alternate content div into the DOM</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">		</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">divId</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">html</span><span class="PUNC">(</span><span class="NAME">gradingText</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">		
+<span class='line'>154</span> 		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nodeContent.width</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">height</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nodeContent.height</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">		
+<span class='line'>157</span> 		</span><span class="COMM">// shrink flash dimensions to fit in grading display (TODO: provide enlarge button?)</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">500</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">			</span><span class="NAME">height</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">*</span><span class="NUMB">500</span><span class="PUNC">/</span><span class="NAME">width</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">			</span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">500</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">minPlayerVersion</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nodeContent.minPlayerVersion</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">activity_uri</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nodeContent.activity_uri</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">flashvars</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nodeContent.flashvars</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>165</span> </span><span class="WHIT">		
+<span class='line'>166</span> 		</span><span class="COMM">// add latest student data to flashvars (processed by Flash on load)</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">		</span><span class="NAME">flashvars.studentData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">studentWork</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">		
+<span class='line'>169</span> 		</span><span class="COMM">// embed the swf in the DOM</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">params</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">		</span><span class="NAME">params.quality</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"high"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">		</span><span class="NAME">params.wmode</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"opaque"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">		</span><span class="NAME">params.allowscriptaccess</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"sameDomain"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">attributes</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">		</span><span class="NAME">attributes.id</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"flashContent"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">		</span><span class="NAME">attributes.name</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"flashContent"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="WHIT">		</span><span class="NAME">attributes.styleclass</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"flashContent"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">		</span><span class="NAME">swfobject.embedSWF</span><span class="PUNC">(</span><span class="NAME">activity_uri</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"alternateContent"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">minPlayerVersion</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"/vlewrapper/vle/swfobject/expressInstall.swf"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">flashvars</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">params</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">attributes</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">		</span><span class="NAME">gradingText</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'Error: Student data not found. Check Flash file to ensure export format is correct.'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">		
+<span class='line'>182</span> 		</span><span class="COMM">//put the error string into the div</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="WHIT">		</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">divId</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">html</span><span class="PUNC">(</span><span class="NAME">gradingText</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">		
+<span class='line'>186</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>187</span> 
+<span class='line'>188</span> </span><span class="COMM">/**
+<span class='line'>189</span> * Gets the custom grading string from the stored student data and renders it in the grading div.
+<span class='line'>190</span> * The grading tool will pass in a div id to this function and this function will insert the data
+<span class='line'>191</span> * into the div.
+<span class='line'>192</span> * 
+<span class='line'>193</span> * @param divId the id of the div we will render the student work into
+<span class='line'>194</span> * @param nodeVisit the student work
+<span class='line'>195</span> * @param childDivIdPrefix (optional) a string that will be prepended to all the 
+<span class='line'>196</span> * div ids use this to prevent DOM conflicts such as when the show all work div
+<span class='line'>197</span> * uses the same ids as the show flagged work div
+<span class='line'>198</span> * @param workgroupId the id of the workgroup this work belongs to
+<span class='line'>199</span> */</span><span class="WHIT">
+<span class='line'>200</span> </span><span class="NAME">FlashNode.prototype.renderGradingViewCustom</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">divId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nodeVisit</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">childDivIdPrefix</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">workgroupId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nodeContent</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>201</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">gradingText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>202</span> </span><span class="WHIT">	
+<span class='line'>203</span> 	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">nodeVisit.getLatestWork</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">response.customGrading</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">"undefined"</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>204</span> </span><span class="WHIT">		</span><span class="COMM">//Get the latest custom grading state object for this step</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">flashState</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nodeVisit.getLatestWork</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">response.customGrading</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">		
+<span class='line'>207</span> 		</span><span class="COMM">/*
+<span class='line'>208</span> 		 * get the step work id from the node visit in case we need to use it in
+<span class='line'>209</span> 		 * a DOM id. we don't use it in this case but I have retrieved it in case
+<span class='line'>210</span> 		 * someone does need it. look at SensorNode.js to view an example of
+<span class='line'>211</span> 		 * how one might use it.
+<span class='line'>212</span> 		 */</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">stepWorkId</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nodeVisit.id</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="WHIT">		
+<span class='line'>215</span> 		</span><span class="COMM">// print out the custom grading string</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">		</span><span class="COMM">//var studentWork = JSON.stringify(flashState);</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">		
+<span class='line'>218</span> 		</span><span class="COMM">//gradingText += studentWork;</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">		</span><span class="NAME">gradingText</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">flashState</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>221</span> </span><span class="WHIT">		</span><span class="NAME">gradingText</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"Error: Custom grading content not found.  Check Flash file to ensure export format is correct."</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>222</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>223</span> </span><span class="WHIT">	
+<span class='line'>224</span> 	</span><span class="COMM">//put the custom grading string into the div</span><span class="WHIT">
+<span class='line'>225</span> </span><span class="WHIT">	</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">divId</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">html</span><span class="PUNC">(</span><span class="NAME">gradingText</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">	
+<span class='line'>226</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>227</span> 
+<span class='line'>228</span> </span><span class="COMM">/**
+<span class='line'>229</span>  * Get the html file associated with this step that we will use to
+<span class='line'>230</span>  * display to the student.
+<span class='line'>231</span>  * 
+<span class='line'>232</span>  * @return a content object containing the content of the associated
+<span class='line'>233</span>  * html for this step type
+<span class='line'>234</span>  */</span><span class="WHIT">
+<span class='line'>235</span> </span><span class="NAME">FlashNode.prototype.getHTMLContentTemplate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">createContent</span><span class="PUNC">(</span><span class="STRN">'node/flash/flash.html'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>237</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>238</span> 
+<span class='line'>239</span> </span><span class="COMM">//Add this node to the node factory so the vle knows it exists.</span><span class="WHIT">
+<span class='line'>240</span> </span><span class="NAME">NodeFactory.addNode</span><span class="PUNC">(</span><span class="STRN">'FlashNode'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">FlashNode</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>241</span> 
+<span class='line'>242</span> </span><span class="COMM">//used to notify scriptloader that this script has finished loading</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">eventManager</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">'undefined'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="WHIT">	</span><span class="NAME">eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'scriptLoaded'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'vle/node/flash/FlashNode.js'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="PUNC">}</span><span class="PUNC">;</span></pre></body></html>

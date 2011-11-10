@@ -1,0 +1,162 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * Sets the CarGraphNode type as an object of this view
+<span class='line'>  3</span>  * @constructor
+<span class='line'>  4</span>  * TODO: rename CarGraphNode
+<span class='line'>  5</span>  */</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="NAME">View.prototype.CarGraphNode</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  7</span> 
+<span class='line'>  8</span> </span><span class="COMM">/*
+<span class='line'>  9</span>  * Add the name of the common component that this step will use. The
+<span class='line'> 10</span>  * common components will be handled by the authoring tool. You will
+<span class='line'> 11</span>  * need to create div elements with the appropriate id for the
+<span class='line'> 12</span>  * authoring tool to insert the component into. Any additional custom
+<span class='line'> 13</span>  * authoring components specific to your step type will be written 
+<span class='line'> 14</span>  * by you in the generatePage() function. You may leave the array
+<span class='line'> 15</span>  * empty if you are not using any common components.
+<span class='line'> 16</span>  * 
+<span class='line'> 17</span>  * Here are the available common components
+<span class='line'> 18</span>  * 'Prompt'
+<span class='line'> 19</span>  * 'LinkTo'
+<span class='line'> 20</span>  * 'StudentResponseBoxSize'
+<span class='line'> 21</span>  * 'RichTextEditorToggle'
+<span class='line'> 22</span>  * 'StarterSentenceAuthoring'
+<span class='line'> 23</span>  * 
+<span class='line'> 24</span>  * If you use a common components, you must create a div with the
+<span class='line'> 25</span>  * appropriate id, here are the respective ids
+<span class='line'> 26</span>  * 'promptContainer'
+<span class='line'> 27</span>  * (LinkTo does not require a div)
+<span class='line'> 28</span>  * 'studentResponseBoxSizeContainer'
+<span class='line'> 29</span>  * 'richTextEditorToggleContainer'
+<span class='line'> 30</span>  * 'starterSentenceAuthoringContainer'
+<span class='line'> 31</span>  * 
+<span class='line'> 32</span>  * 
+<span class='line'> 33</span>  * TODO: rename CarGraphNode
+<span class='line'> 34</span>  */</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="NAME">View.prototype.CarGraphNode.commonComponents</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 36</span> 
+<span class='line'> 37</span> </span><span class="COMM">/**
+<span class='line'> 38</span>  * Generates the authoring page. This function will create the authoring
+<span class='line'> 39</span>  * components such as textareas, radio buttons, check boxes, etc. that
+<span class='line'> 40</span>  * authors will use to author the step. For example if the step has a
+<span class='line'> 41</span>  * text prompt that the student will read, this function will create
+<span class='line'> 42</span>  * a textarea that will allow the author to type the text that the
+<span class='line'> 43</span>  * student will see. You will also need to populate the textarea with
+<span class='line'> 44</span>  * the pre-existing prompt if the step has been authored before.
+<span class='line'> 45</span>  * 
+<span class='line'> 46</span>  * TODO: rename CarGraphNode
+<span class='line'> 47</span>  */</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="NAME">View.prototype.CarGraphNode.generatePage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">view</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">	</span><span class="NAME">this.view</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">view</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">	
+<span class='line'> 51</span> 	</span><span class="COMM">//get the content of the step</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">	</span><span class="NAME">this.content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.view.activeContent.getContentJSON</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">	
+<span class='line'> 54</span> 	</span><span class="COMM">//get the html element that all the authoring components will be located</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">parent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementById</span><span class="PUNC">(</span><span class="STRN">'dynamicParent'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">	
+<span class='line'> 57</span> 	</span><span class="COMM">/*
+<span class='line'> 58</span> 	 * wipe out the div that contains the authoring components because it
+<span class='line'> 59</span> 	 * may still be populated with the authoring components from a previous
+<span class='line'> 60</span> 	 * step the author has been authoring since we re-use the div id
+<span class='line'> 61</span> 	 */</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">	</span><span class="NAME">parent.removeChild</span><span class="PUNC">(</span><span class="NAME">document.getElementById</span><span class="PUNC">(</span><span class="STRN">'dynamicPage'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 63</span> 
+<span class='line'> 64</span> </span><span class="WHIT">	</span><span class="COMM">//create a new div that will contain the authroing components</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">pageDiv</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'div'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">id</span><span class="PUNC">:</span><span class="STRN">'dynamicPage'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">style</span><span class="PUNC">:</span><span class="STRN">'width:100%;height:100%'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">	
+<span class='line'> 67</span> 	</span><span class="COMM">//create the label for the textarea that the author will write the prompt in</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">promptText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createTextNode</span><span class="PUNC">(</span><span class="STRN">"Prompt for Student:"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">	
+<span class='line'> 70</span> 	</span><span class="COMM">/*
+<span class='line'> 71</span> 	 * create the textarea that the author will write the prompt in
+<span class='line'> 72</span> 	 * 
+<span class='line'> 73</span> 	 * onkeyup will fire the 'cargraphUpdatePrompt' event which will
+<span class='line'> 74</span> 	 * be handled in the &lt;new step type name>Events.js file
+<span class='line'> 75</span> 	 * 
+<span class='line'> 76</span> 	 * For example if you are creating a quiz step you would look in
+<span class='line'> 77</span> 	 * your quizEvents.js file.
+<span class='line'> 78</span> 	 * 
+<span class='line'> 79</span> 	 * when you add new authoring components you will need to create
+<span class='line'> 80</span> 	 * new events in the &lt;new step type name>Events.js file and then
+<span class='line'> 81</span> 	 * create new functions to handle the event
+<span class='line'> 82</span> 	 */</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">promptTextArea</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'textarea'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'promptTextArea'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rows</span><span class="PUNC">:</span><span class="STRN">'20'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cols</span><span class="PUNC">:</span><span class="STRN">'85'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">onkeyup</span><span class="PUNC">:</span><span class="STRN">"eventManager.fire('cargraphUpdatePrompt')"</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">	
+<span class='line'> 85</span> 	</span><span class="COMM">//add the authoring components to the page</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">promptText</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">createBreak</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">promptTextArea</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">createBreak</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span> 
+<span class='line'> 91</span> </span><span class="WHIT">	</span><span class="COMM">//add the page to the parent</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">	</span><span class="NAME">parent.appendChild</span><span class="PUNC">(</span><span class="NAME">pageDiv</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">	
+<span class='line'> 94</span> 	</span><span class="COMM">//populate the prompt if this step has been authored before</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">	</span><span class="NAME">this.populatePrompt</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 97</span> 
+<span class='line'> 98</span> </span><span class="COMM">/**
+<span class='line'> 99</span>  * Get the array of common components which is an array with
+<span class='line'>100</span>  * string elements being the name of the common component
+<span class='line'>101</span>  * 
+<span class='line'>102</span>  * TODO: rename CarGraphNode
+<span class='line'>103</span>  */</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="NAME">View.prototype.CarGraphNode.getCommonComponents</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.commonComponents</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span> 
+<span class='line'>108</span> </span><span class="COMM">/**
+<span class='line'>109</span>  * Updates this content object when requested, usually when preview is to be refreshed
+<span class='line'>110</span>  * 
+<span class='line'>111</span>  * TODO: rename CarGraphNode
+<span class='line'>112</span>  */</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="NAME">View.prototype.CarGraphNode.updateContent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">	</span><span class="COMM">/* update content object */</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">	</span><span class="NAME">this.view.activeContent.setContent</span><span class="PUNC">(</span><span class="NAME">this.content</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span> 
+<span class='line'>118</span> </span><span class="COMM">/**
+<span class='line'>119</span>  * Populate the authoring textarea where the user types the prompt that
+<span class='line'>120</span>  * the student will read
+<span class='line'>121</span>  * 
+<span class='line'>122</span>  * TODO: rename CarGraphNode
+<span class='line'>123</span>  */</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="NAME">View.prototype.CarGraphNode.populatePrompt</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">	</span><span class="COMM">//get the prompt from the content and set it into the authoring textarea</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">	</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#promptTextArea'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="NAME">this.content.prompt</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>128</span> 
+<span class='line'>129</span> </span><span class="COMM">/**
+<span class='line'>130</span>  * Updates the content's prompt to match that of what the user input
+<span class='line'>131</span>  * 
+<span class='line'>132</span>  * TODO: rename CarGraphNode
+<span class='line'>133</span>  */</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="NAME">View.prototype.CarGraphNode.updatePrompt</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">	</span><span class="COMM">/* update content */</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">	</span><span class="NAME">this.content.prompt</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#promptTextArea'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">	
+<span class='line'>138</span> 	</span><span class="COMM">/*
+<span class='line'>139</span> 	 * fire source updated event, this will update the preview
+<span class='line'>140</span> 	 */</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">	</span><span class="NAME">this.view.eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'sourceUpdated'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>143</span> 
+<span class='line'>144</span> </span><span class="COMM">//used to notify scriptloader that this script has finished loading</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">eventManager</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">'undefined'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">	</span><span class="COMM">/*
+<span class='line'>147</span> 	 * TODO: rename cargraph to your new folder name
+<span class='line'>148</span> 	 * TODO: rename authorview_cargraph
+<span class='line'>149</span> 	 * 
+<span class='line'>150</span> 	 * e.g. if you were creating a quiz step it would look like
+<span class='line'>151</span> 	 * 
+<span class='line'>152</span> 	 * eventManager.fire('scriptLoaded', 'vle/node/quiz/authorview_quiz.js');
+<span class='line'>153</span> 	 */</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">	</span><span class="NAME">eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'scriptLoaded'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'vle/node/cargraph/authorview_cargraph.js'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="PUNC">}</span><span class="PUNC">;</span></pre></body></html>

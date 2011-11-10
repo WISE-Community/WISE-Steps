@@ -1,0 +1,104 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">nodeType</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'OpenResponseNode'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">coreScripts</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="WHIT">	</span><span class="STRN">'vle/node/openresponse/OpenResponseNode.js'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  5</span> </span><span class="WHIT">	</span><span class="STRN">'vle/node/openresponse/NoteNode.js'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="WHIT">	</span><span class="STRN">'vle/node/openresponse/openResponseEvents.js'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="WHIT">	</span><span class="COMM">/* 
+<span class='line'>  8</span>      * the following are needed here for the note nodes that now load
+<span class='line'>  9</span>      * in a div of the main page of the vle, not in its own frame 
+<span class='line'> 10</span>      */</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="WHIT">	</span><span class="STRN">'vle/node/openresponse/openresponsestate.js'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="WHIT">    </span><span class="STRN">'vle/node/openresponse/openresponse.js'</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 14</span> 
+<span class='line'> 15</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">coreMinScripts</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'> 16</span> </span><span class="WHIT">	</span><span class="STRN">'vle/node/openresponse/openresponse_core_min.js'</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 18</span> 
+<span class='line'> 19</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">studentVLEScripts</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="WHIT">	</span><span class="STRN">'vle/node/common/nodehelpers.js'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">	</span><span class="STRN">'vle/common/helperfunctions.js'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">	</span><span class="STRN">'vle/jquery/js/jquery-1.6.1.min.js'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">	</span><span class="STRN">'vle/jquery/js/jquery-ui-1.8.7.custom.min.js'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">	</span><span class="STRN">'vle/jquery/js/jsonplugin.js'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">	</span><span class="STRN">'vle/node/openresponse/openresponsestate.js'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">	</span><span class="STRN">'vle/node/openresponse/openresponse.js'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">	</span><span class="STRN">'vle/grading/Annotation.js'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">	</span><span class="STRN">'vle/grading/Annotations.js'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">	</span><span class="STRN">'vle/data/nodevisit.js'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">	</span><span class="STRN">'vle/jquery/tinymce/jscripts/tiny_mce/jquery.tinymce.js'</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 32</span> 
+<span class='line'> 33</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">authorScripts</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">	</span><span class="STRN">'vle/node/openresponse/authorview_openresponse.js'</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 36</span> 
+<span class='line'> 37</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">gradingScripts</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">	</span><span class="STRN">'vle/node/openresponse/openresponsestate.js'</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 40</span> 
+<span class='line'> 41</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dependencies</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="NAME">child</span><span class="PUNC">:</span><span class="STRN">"vle/node/openresponse/OpenResponseNode.js"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">parent</span><span class="PUNC">:</span><span class="PUNC">[</span><span class="STRN">"vle/node/Node.js"</span><span class="PUNC">]</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="NAME">child</span><span class="PUNC">:</span><span class="STRN">"vle/node/openresponse/NoteNode.js"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">parent</span><span class="PUNC">:</span><span class="PUNC">[</span><span class="STRN">"vle/node/Node.js"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"vle/node/openresponse/OpenResponseNode.js"</span><span class="PUNC">]</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 45</span> 
+<span class='line'> 46</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">css</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">	</span><span class="STRN">"vle/node/common/css/htmlAssessment.css"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">	</span><span class="STRN">"vle/node/openresponse/openresponse.css"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">	</span><span class="STRN">"vle/jquery/css/custom-theme/jquery-ui-1.8.7.custom.css"</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 51</span> 
+<span class='line'> 52</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">openResponseNodeClasses</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="NAME">nodeClass</span><span class="PUNC">:</span><span class="STRN">'openresponse'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nodeClassText</span><span class="PUNC">:</span><span class="STRN">'Open Response'</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span> 
+<span class='line'> 56</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">noteNodeClasses</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="NAME">nodeClass</span><span class="PUNC">:</span><span class="STRN">'note'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nodeClassText</span><span class="PUNC">:</span><span class="STRN">'Reflection Note (popup)'</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 59</span> 
+<span class='line'> 60</span> </span><span class="NAME">scriptloader.addScriptToComponent</span><span class="PUNC">(</span><span class="STRN">'core'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">coreScripts</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="NAME">scriptloader.addScriptToComponent</span><span class="PUNC">(</span><span class="STRN">'core_min'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">coreMinScripts</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="NAME">scriptloader.addScriptToComponent</span><span class="PUNC">(</span><span class="STRN">'openresponse'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">studentVLEScripts</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="NAME">scriptloader.addScriptToComponent</span><span class="PUNC">(</span><span class="STRN">'author'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">authorScripts</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="NAME">scriptloader.addScriptToComponent</span><span class="PUNC">(</span><span class="STRN">'studentwork'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gradingScripts</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="NAME">scriptloader.addScriptToComponent</span><span class="PUNC">(</span><span class="STRN">'studentwork_min'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gradingScripts</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="NAME">scriptloader.addDependencies</span><span class="PUNC">(</span><span class="NAME">dependencies</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="NAME">scriptloader.addCssToComponent</span><span class="PUNC">(</span><span class="STRN">'openresponse'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">css</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 68</span> 
+<span class='line'> 69</span> </span><span class="NAME">scriptloader.addScriptToComponent</span><span class="PUNC">(</span><span class="STRN">'peerreviewhelper'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'vle/node/openresponse/openresponse.js'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="NAME">scriptloader.addCssToComponent</span><span class="PUNC">(</span><span class="STRN">'core'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'vle/node/openresponse/openresponse.css'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 71</span> 
+<span class='line'> 72</span> </span><span class="NAME">componentloader.addNodeClasses</span><span class="PUNC">(</span><span class="STRN">'OpenResponseNode'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">openResponseNodeClasses</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 73</span> 
+<span class='line'> 74</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">nodeTemplateParams</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">		</span><span class="NAME">nodeTemplateFilePath</span><span class="PUNC">:</span><span class="STRN">'node/openresponse/openResponseTemplate.or'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">		</span><span class="NAME">nodeExtension</span><span class="PUNC">:</span><span class="STRN">'or'</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 80</span> 
+<span class='line'> 81</span> </span><span class="NAME">componentloader.addNodeTemplateParams</span><span class="PUNC">(</span><span class="STRN">'OpenResponseNode'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nodeTemplateParams</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 82</span> 
+<span class='line'> 83</span> </span><span class="NAME">componentloader.addNodeClasses</span><span class="PUNC">(</span><span class="STRN">'NoteNode'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">noteNodeClasses</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 84</span> 
+<span class='line'> 85</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">nodeTemplateParams</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">		</span><span class="NAME">nodeTemplateFilePath</span><span class="PUNC">:</span><span class="STRN">'node/openresponse/noteTemplate.or'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">		</span><span class="NAME">nodeExtension</span><span class="PUNC">:</span><span class="STRN">'or'</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 91</span> 
+<span class='line'> 92</span> </span><span class="NAME">componentloader.addNodeTemplateParams</span><span class="PUNC">(</span><span class="STRN">'NoteNode'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nodeTemplateParams</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span> 
+<span class='line'> 94</span> </span><span class="COMM">//used to notify scriptloader that this script has finished loading</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">eventManager</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">'undefined'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">	</span><span class="NAME">eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'scriptLoaded'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'vle/node/openresponse/setup.js'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="PUNC">}</span><span class="PUNC">;</span></pre></body></html>

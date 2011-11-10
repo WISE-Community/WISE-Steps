@@ -1,0 +1,168 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/*
+<span class='line'>  2</span>  * This is a template step object that developers can use to create new
+<span class='line'>  3</span>  * step types.
+<span class='line'>  4</span>  * 
+<span class='line'>  5</span>  * TODO: Copy this file and rename it to
+<span class='line'>  6</span>  * 
+<span class='line'>  7</span>  * &lt;new step type>.js
+<span class='line'>  8</span>  * e.g. for example if you are creating a quiz step it would look
+<span class='line'>  9</span>  * something like quiz.js
+<span class='line'> 10</span>  *
+<span class='line'> 11</span>  * and then put the new file into the new folder
+<span class='line'> 12</span>  * you created for your new step type
+<span class='line'> 13</span>  *
+<span class='line'> 14</span>  * your new folder will look something like
+<span class='line'> 15</span>  * vlewrapper/WebContent/vle/node/&lt;new step type>/
+<span class='line'> 16</span>  *
+<span class='line'> 17</span>  * e.g. for example if you are creating a quiz step it would look something like
+<span class='line'> 18</span>  * vlewrapper/WebContent/vle/node/quiz/
+<span class='line'> 19</span>  * 
+<span class='line'> 20</span>  * 
+<span class='line'> 21</span>  * TODO: in this file, change all occurrences of the word 'Template' to the
+<span class='line'> 22</span>  * name of your new step type
+<span class='line'> 23</span>  * 
+<span class='line'> 24</span>  * &lt;new step type>
+<span class='line'> 25</span>  * e.g. for example if you are creating a quiz step it would look
+<span class='line'> 26</span>  * something like Quiz
+<span class='line'> 27</span>  */</span><span class="WHIT">
+<span class='line'> 28</span> 
+<span class='line'> 29</span> </span><span class="COMM">/**
+<span class='line'> 30</span>  * This is the constructor for the object that will perform the logic for
+<span class='line'> 31</span>  * the step when the students work on it. An instance of this object will
+<span class='line'> 32</span>  * be created in the .html for this step (look at template.html)
+<span class='line'> 33</span>  * 
+<span class='line'> 34</span>  * TODO: rename Template
+<span class='line'> 35</span>  * 
+<span class='line'> 36</span>  * @constructor
+<span class='line'> 37</span>  */</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">Template</span><span class="PUNC">(</span><span class="NAME">node</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">	</span><span class="NAME">this.node</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">node</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">	</span><span class="NAME">this.view</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">node.view</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">	</span><span class="NAME">this.content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">node.getContent</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">getContentJSON</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">	
+<span class='line'> 43</span> 	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">node.studentWork</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">		</span><span class="NAME">this.states</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">node.studentWork</span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'> 45</span> 	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">		</span><span class="NAME">this.states</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">  
+<span class='line'> 47</span> 	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> 
+<span class='line'> 50</span> </span><span class="COMM">/**
+<span class='line'> 51</span>  * This function renders everything the student sees when they visit the step.
+<span class='line'> 52</span>  * This includes setting up the html ui elements as well as reloading any
+<span class='line'> 53</span>  * previous work the student has submitted when they previously worked on this
+<span class='line'> 54</span>  * step, if any.
+<span class='line'> 55</span>  * 
+<span class='line'> 56</span>  * TODO: rename Template
+<span class='line'> 57</span>  * 
+<span class='line'> 58</span>  * note: you do not have to use 'promptDiv' or 'studentResponseTextArea', they
+<span class='line'> 59</span>  * are just provided as examples. you may create your own html ui elements in
+<span class='line'> 60</span>  * the .html file for this step (look at template.html).
+<span class='line'> 61</span>  */</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="NAME">Template.prototype.render</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">	</span><span class="COMM">//display any prompts to the student</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">	</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#promptDiv'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">html</span><span class="PUNC">(</span><span class="NAME">this.content.prompt</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">	
+<span class='line'> 66</span> 	</span><span class="COMM">//load any previous responses the student submitted for this step</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">latestState</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getLatestState</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">	
+<span class='line'> 69</span> 	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">latestState</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">		</span><span class="COMM">/*
+<span class='line'> 71</span> 		 * get the response from the latest state. the response variable is
+<span class='line'> 72</span> 		 * just provided as an example. you may use whatever variables you
+<span class='line'> 73</span> 		 * would like from the state object (look at templateState.js)
+<span class='line'> 74</span> 		 */</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">latestResponse</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">latestState.response</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">		
+<span class='line'> 77</span> 		</span><span class="COMM">//set the previous student work into the text area</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">		</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#studentResponseTextArea'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="NAME">latestResponse</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'> 79</span> 	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 81</span> 
+<span class='line'> 82</span> </span><span class="COMM">/**
+<span class='line'> 83</span>  * This function retrieves the latest student work
+<span class='line'> 84</span>  * 
+<span class='line'> 85</span>  * TODO: rename Template
+<span class='line'> 86</span>  * 
+<span class='line'> 87</span>  * @return the latest state object or null if the student has never submitted
+<span class='line'> 88</span>  * work for this step
+<span class='line'> 89</span>  */</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="NAME">Template.prototype.getLatestState</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">latestState</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">	
+<span class='line'> 93</span> 	</span><span class="COMM">//check if the states array has any elements</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this.states</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.states.length</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">		</span><span class="COMM">//get the last state</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">		</span><span class="NAME">latestState</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.states</span><span class="PUNC">[</span><span class="NAME">this.states.length</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">	
+<span class='line'> 99</span> 	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">latestState</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>101</span> 
+<span class='line'>102</span> </span><span class="COMM">/**
+<span class='line'>103</span>  * This function retrieves the student work from the html ui, creates a state
+<span class='line'>104</span>  * object to represent the student work, and then saves the student work.
+<span class='line'>105</span>  * 
+<span class='line'>106</span>  * TODO: rename Template
+<span class='line'>107</span>  * 
+<span class='line'>108</span>  * note: you do not have to use 'studentResponseTextArea', they are just 
+<span class='line'>109</span>  * provided as examples. you may create your own html ui elements in
+<span class='line'>110</span>  * the .html file for this step (look at template.html).
+<span class='line'>111</span>  */</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="NAME">Template.prototype.save</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">	</span><span class="COMM">//get the answer the student wrote</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">response</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#studentResponseTextArea'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">	
+<span class='line'>116</span> 	</span><span class="COMM">/*
+<span class='line'>117</span> 	 * create the student state that will store the new work the student
+<span class='line'>118</span> 	 * just submitted
+<span class='line'>119</span> 	 * 
+<span class='line'>120</span> 	 * TODO: rename TemplateState
+<span class='line'>121</span> 	 * 
+<span class='line'>122</span> 	 * make sure you rename TemplateState to the state object type
+<span class='line'>123</span> 	 * that you will use for representing student data for this
+<span class='line'>124</span> 	 * type of step. copy and modify the file below
+<span class='line'>125</span> 	 * 
+<span class='line'>126</span> 	 * vlewrapper/WebContent/vle/node/template/templateState.js
+<span class='line'>127</span> 	 * 
+<span class='line'>128</span> 	 * and use the object defined in your new state.js file instead
+<span class='line'>129</span> 	 * of TemplateState. for example if you are creating a new
+<span class='line'>130</span> 	 * quiz step type you would copy the file above to
+<span class='line'>131</span> 	 * 
+<span class='line'>132</span> 	 * vlewrapper/WebContent/vle/node/quiz/quizState.js
+<span class='line'>133</span> 	 * 
+<span class='line'>134</span> 	 * and in that file you would define QuizState and therefore
+<span class='line'>135</span> 	 * would change the TemplateState to QuizState below
+<span class='line'>136</span> 	 */</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">templateState</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">TemplateState</span><span class="PUNC">(</span><span class="NAME">response</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">	
+<span class='line'>139</span> 	</span><span class="COMM">/*
+<span class='line'>140</span> 	 * fire the event to push this state to the global view.states object.
+<span class='line'>141</span> 	 * the student work is saved to the server once they move on to the
+<span class='line'>142</span> 	 * next step.
+<span class='line'>143</span> 	 */</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">	</span><span class="NAME">eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'pushStudentWork'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">templateState</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>145</span> 
+<span class='line'>146</span> </span><span class="WHIT">	</span><span class="COMM">//push the state object into this or object's own copy of states</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">	</span><span class="NAME">this.states.push</span><span class="PUNC">(</span><span class="NAME">templateState</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>149</span> 
+<span class='line'>150</span> </span><span class="COMM">//used to notify scriptloader that this script has finished loading</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">eventManager</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">'undefined'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">	</span><span class="COMM">/*
+<span class='line'>153</span> 	 * TODO: rename template to your new folder name
+<span class='line'>154</span> 	 * TODO: rename template.js
+<span class='line'>155</span> 	 * 
+<span class='line'>156</span> 	 * e.g. if you were creating a quiz step it would look like
+<span class='line'>157</span> 	 * 
+<span class='line'>158</span> 	 * eventManager.fire('scriptLoaded', 'vle/node/quiz/quiz.js');
+<span class='line'>159</span> 	 */</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">	</span><span class="NAME">eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'scriptLoaded'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'vle/node/template/template.js'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="PUNC">}</span></pre></body></html>

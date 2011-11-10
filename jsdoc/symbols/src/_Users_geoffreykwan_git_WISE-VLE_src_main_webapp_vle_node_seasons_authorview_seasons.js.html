@@ -1,0 +1,176 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * Sets the SeasonsNode type as an object of this view
+<span class='line'>  3</span>  * 
+<span class='line'>  4</span>  * TODO: rename SeasonsNode
+<span class='line'>  5</span>  * @constructor
+<span class='line'>  6</span>  */</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="NAME">View.prototype.SeasonsNode</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  8</span> 
+<span class='line'>  9</span> </span><span class="COMM">/*
+<span class='line'> 10</span>  * Add the name of the common component that this step will use. The
+<span class='line'> 11</span>  * common components will be handled by the authoring tool. You will
+<span class='line'> 12</span>  * need to create div elements with the appropriate id for the
+<span class='line'> 13</span>  * authoring tool to insert the component into. Any additional custom
+<span class='line'> 14</span>  * authoring components specific to your step type will be written 
+<span class='line'> 15</span>  * by you in the generatePage() function. You may leave the array
+<span class='line'> 16</span>  * empty if you are not using any common components.
+<span class='line'> 17</span>  * 
+<span class='line'> 18</span>  * Here are the available common components
+<span class='line'> 19</span>  * 'Prompt'
+<span class='line'> 20</span>  * 'LinkTo'
+<span class='line'> 21</span>  * 'StudentResponseBoxSize'
+<span class='line'> 22</span>  * 'RichTextEditorToggle'
+<span class='line'> 23</span>  * 'StarterSentenceAuthoring'
+<span class='line'> 24</span>  * 
+<span class='line'> 25</span>  * If you use a common components, you must create a div with the
+<span class='line'> 26</span>  * appropriate id, here are the respective ids
+<span class='line'> 27</span>  * 'promptContainer'
+<span class='line'> 28</span>  * (LinkTo does not require a div)
+<span class='line'> 29</span>  * 'studentResponseBoxSizeContainer'
+<span class='line'> 30</span>  * 'richTextEditorToggleContainer'
+<span class='line'> 31</span>  * 'starterSentenceAuthoringContainer'
+<span class='line'> 32</span>  * 
+<span class='line'> 33</span>  * 
+<span class='line'> 34</span>  * TODO: rename SeasonsNode
+<span class='line'> 35</span>  */</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="NAME">View.prototype.SeasonsNode.commonComponents</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 37</span> 
+<span class='line'> 38</span> </span><span class="COMM">/**
+<span class='line'> 39</span>  * Generates the authoring page. This function will create the authoring
+<span class='line'> 40</span>  * components such as textareas, radio buttons, check boxes, etc. that
+<span class='line'> 41</span>  * authors will use to author the step. For example if the step has a
+<span class='line'> 42</span>  * text prompt that the student will read, this function will create
+<span class='line'> 43</span>  * a textarea that will allow the author to type the text that the
+<span class='line'> 44</span>  * student will see. You will also need to populate the textarea with
+<span class='line'> 45</span>  * the pre-existing prompt if the step has been authored before.
+<span class='line'> 46</span>  * 
+<span class='line'> 47</span>  * TODO: rename SeasonsNode
+<span class='line'> 48</span>  */</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="NAME">View.prototype.SeasonsNode.generatePage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">view</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">	</span><span class="NAME">this.view</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">view</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">	
+<span class='line'> 52</span> 	</span><span class="COMM">//get the content of the step</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">	</span><span class="NAME">this.content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.view.activeContent.getContentJSON</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">	
+<span class='line'> 55</span> 	</span><span class="COMM">//get the html element that all the authoring components will be located</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">parent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementById</span><span class="PUNC">(</span><span class="STRN">'dynamicParent'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">	
+<span class='line'> 58</span> 	</span><span class="COMM">/*
+<span class='line'> 59</span> 	 * wipe out the div that contains the authoring components because it
+<span class='line'> 60</span> 	 * may still be populated with the authoring components from a previous
+<span class='line'> 61</span> 	 * step the author has been authoring since we re-use the div id
+<span class='line'> 62</span> 	 */</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">	</span><span class="NAME">parent.removeChild</span><span class="PUNC">(</span><span class="NAME">document.getElementById</span><span class="PUNC">(</span><span class="STRN">'dynamicPage'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> 
+<span class='line'> 65</span> </span><span class="WHIT">	</span><span class="COMM">//create a new div that will contain the authroing components</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">pageDiv</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'div'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">id</span><span class="PUNC">:</span><span class="STRN">'dynamicPage'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">style</span><span class="PUNC">:</span><span class="STRN">'width:100%;height:100%'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">	
+<span class='line'> 68</span> 	</span><span class="COMM">//create the label for the textarea that the author will write the prompt in</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">promptText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createTextNode</span><span class="PUNC">(</span><span class="STRN">"Select Model Type:"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">	
+<span class='line'> 71</span> 	</span><span class="COMM">/*
+<span class='line'> 72</span> 	 * create the modelType dropdown
+<span class='line'> 73</span> 	 * 
+<span class='line'> 74</span> 	 * onchange will fire the 'seasonsModelTypeUpdated' event which will
+<span class='line'> 75</span> 	 * be handled in the seasonsEvents.js file
+<span class='line'> 76</span> 	 */</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">modelTypeDropDownHtml</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'&lt;select id="modelTypeDropDown" onchange="eventManager.fire(\'seasonsModelTypeUpdated\')">'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> 
+<span class='line'> 78</span> 	</span><span class="STRN">'&lt;option value="whatTemperaturePatternsDoYouSee">1 What Temperature Patterns Do You See?&lt;/option>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">	</span><span class="STRN">'&lt;option value="whatIstheShapeofEarthsOrbit">2 What is the Shape of Earth\'s Orbit&lt;/option>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">	</span><span class="STRN">'&lt;option value="howDoesEarthsTiltAffectTemperature">3 How Does Earth\'s Tilt Affect Temperature?&lt;/option>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">	</span><span class="STRN">'&lt;/select>'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">		
+<span class='line'> 83</span> 	</span><span class="COMM">//var promptTextArea = createElement(document, 'textarea', {id: 'promptTextArea', rows:'20', cols:'85', onkeyup:"eventManager.fire('seasonsUpdatePrompt')"});</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">	
+<span class='line'> 85</span> 	</span><span class="COMM">//add the authoring components to the page</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">promptText</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">createBreak</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.innerHTML</span><span class="PUNC">+</span><span class="PUNC">=</span><span class="NAME">modelTypeDropDownHtml</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">	</span><span class="NAME">pageDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">createBreak</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span> 
+<span class='line'> 91</span> </span><span class="WHIT">	</span><span class="COMM">//add the page to the parent</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">	</span><span class="NAME">parent.appendChild</span><span class="PUNC">(</span><span class="NAME">pageDiv</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">	
+<span class='line'> 94</span> 	</span><span class="COMM">// show the selected model type in the drop down</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">	</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">"#modelTypeDropDown"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="NAME">this.content.modelType</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">	
+<span class='line'> 97</span> 	</span><span class="COMM">//populate the prompt if this step has been authored before</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">	</span><span class="COMM">//this.populatePrompt();</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span> 
+<span class='line'>101</span> </span><span class="COMM">/**
+<span class='line'>102</span>  * Get the array of common components which is an array with
+<span class='line'>103</span>  * string elements being the name of the common component
+<span class='line'>104</span>  * 
+<span class='line'>105</span>  * TODO: rename SeasonsNode
+<span class='line'>106</span>  */</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="NAME">View.prototype.SeasonsNode.getCommonComponents</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.commonComponents</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>110</span> 
+<span class='line'>111</span> </span><span class="COMM">/**
+<span class='line'>112</span>  * Updates this content object when requested, usually when preview is to be refreshed
+<span class='line'>113</span>  * 
+<span class='line'>114</span>  * TODO: rename SeasonsNode
+<span class='line'>115</span>  */</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="NAME">View.prototype.SeasonsNode.updateContent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">	</span><span class="COMM">/* update content object */</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">	</span><span class="NAME">this.view.activeContent.setContent</span><span class="PUNC">(</span><span class="NAME">this.content</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>120</span> 
+<span class='line'>121</span> </span><span class="COMM">/**
+<span class='line'>122</span>  * Populate the authoring textarea where the user types the prompt that
+<span class='line'>123</span>  * the student will read
+<span class='line'>124</span>  * 
+<span class='line'>125</span>  * TODO: rename SeasonsNode
+<span class='line'>126</span>  */</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="NAME">View.prototype.SeasonsNode.populatePrompt</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">	</span><span class="COMM">//get the prompt from the content and set it into the authoring textarea</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">	</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#promptTextArea'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="NAME">this.content.prompt</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>131</span> 
+<span class='line'>132</span> </span><span class="COMM">/**
+<span class='line'>133</span>  * Updates the content's modeltype to match that of what the user specified
+<span class='line'>134</span>  */</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="NAME">View.prototype.SeasonsNode.updateModelType</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">	</span><span class="COMM">/* update content */</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">	</span><span class="NAME">this.content.modelType</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#modelTypeDropDown'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">	
+<span class='line'>139</span> 	</span><span class="COMM">/*
+<span class='line'>140</span> 	 * fire source updated event, this will update the preview
+<span class='line'>141</span> 	 */</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">	</span><span class="NAME">this.view.eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'sourceUpdated'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>144</span> 
+<span class='line'>145</span> </span><span class="COMM">/**
+<span class='line'>146</span>  * Updates the content's prompt to match that of what the user input
+<span class='line'>147</span>  */</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="NAME">View.prototype.SeasonsNode.updatePrompt</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">	</span><span class="COMM">/* update content */</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">	</span><span class="NAME">this.content.prompt</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#promptTextArea'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">	
+<span class='line'>152</span> 	</span><span class="COMM">/*
+<span class='line'>153</span> 	 * fire source updated event, this will update the preview
+<span class='line'>154</span> 	 */</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">	</span><span class="NAME">this.view.eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'sourceUpdated'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>157</span> 
+<span class='line'>158</span> </span><span class="COMM">//used to notify scriptloader that this script has finished loading</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">eventManager</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">'undefined'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">	</span><span class="COMM">/*
+<span class='line'>161</span> 	 * TODO: rename seasons to your new folder name
+<span class='line'>162</span> 	 * TODO: rename authorview_seasons
+<span class='line'>163</span> 	 * 
+<span class='line'>164</span> 	 * e.g. if you were creating a quiz step it would look like
+<span class='line'>165</span> 	 * 
+<span class='line'>166</span> 	 * eventManager.fire('scriptLoaded', 'vle/node/quiz/authorview_quiz.js');
+<span class='line'>167</span> 	 */</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">	</span><span class="NAME">eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'scriptLoaded'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'vle/node/seasons/authorview_seasons.js'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="PUNC">}</span><span class="PUNC">;</span></pre></body></html>

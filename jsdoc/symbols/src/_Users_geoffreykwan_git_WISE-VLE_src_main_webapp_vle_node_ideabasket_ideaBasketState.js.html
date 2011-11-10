@@ -1,0 +1,93 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/*
+<span class='line'>  2</span>  * This is a template state object that developers can use to create new
+<span class='line'>  3</span>  * step types.
+<span class='line'>  4</span>  *
+<span class='line'>  5</span>  * TODO: Copy this file and rename it to
+<span class='line'>  6</span>  * 
+<span class='line'>  7</span>  * &lt;new step type>state.js
+<span class='line'>  8</span>  * e.g. for example if you are creating a quiz step it would look
+<span class='line'>  9</span>  * something like quizstate.js
+<span class='line'> 10</span>  *
+<span class='line'> 11</span>  * and then put the new file into the new folder
+<span class='line'> 12</span>  * you created for your new step type
+<span class='line'> 13</span>  *
+<span class='line'> 14</span>  * your new folder will look something like
+<span class='line'> 15</span>  * vlewrapper/WebContent/vle/node/&lt;new step type>/
+<span class='line'> 16</span>  *
+<span class='line'> 17</span>  * e.g. if you are creating a quiz step it would look something like
+<span class='line'> 18</span>  * vlewrapper/WebContent/vle/node/quiz/
+<span class='line'> 19</span>  * 
+<span class='line'> 20</span>  * TODO: in this file, change all occurrences of the word 'TEMPLATESTATE' to
+<span class='line'> 21</span>  * 
+<span class='line'> 22</span>  * &lt;new step type>STATE
+<span class='line'> 23</span>  * e.g. for example if you are creating a quiz step it would look
+<span class='line'> 24</span>  * something like QUIZSTATE
+<span class='line'> 25</span>  */</span><span class="WHIT">
+<span class='line'> 26</span> 
+<span class='line'> 27</span> </span><span class="COMM">/**
+<span class='line'> 28</span>  * This is the constructor for the state object that will be used to represent the
+<span class='line'> 29</span>  * student work. An instance of this object will be created each time the student
+<span class='line'> 30</span>  * submits an answer.
+<span class='line'> 31</span>  * 
+<span class='line'> 32</span>  * TODO: rename TEMPLATESTATE
+<span class='line'> 33</span>  * 
+<span class='line'> 34</span>  * note: you can change the variables in this constructor, the response variable
+<span class='line'> 35</span>  * is just used as an example. you can add any variables that will help you 
+<span class='line'> 36</span>  * represent the student's work for your step type.
+<span class='line'> 37</span>  * 
+<span class='line'> 38</span>  * @constructor
+<span class='line'> 39</span>  */</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">IdeaBasketState</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 41</span> 
+<span class='line'> 42</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 43</span> 
+<span class='line'> 44</span> </span><span class="COMM">/**
+<span class='line'> 45</span>  * This function is used to reload previous work the student submitted for the step.
+<span class='line'> 46</span>  * The student work is retrieved and then this function is called to parse the student
+<span class='line'> 47</span>  * work so that we can display the previous answer the student submitted.
+<span class='line'> 48</span>  * 
+<span class='line'> 49</span>  * TODO: rename TEMPLATESTATE
+<span class='line'> 50</span>  * 
+<span class='line'> 51</span>  * note: you can change the variables in the stateJSONObj, the response 
+<span class='line'> 52</span>  * variable is just used as an example. you can add any variables that will  
+<span class='line'> 53</span>  * help you represent the student's work for your type of step.
+<span class='line'> 54</span>  * 
+<span class='line'> 55</span>  * @param stateJSONObj a JSONObject representing the student work
+<span class='line'> 56</span>  * @return a TEMPLATESTATE object
+<span class='line'> 57</span>  */</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="NAME">IdeaBasketState.prototype.parseDataJSONObj</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">stateJSONObj</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">	</span><span class="COMM">/*
+<span class='line'> 60</span> 	 * create a state object with the student work
+<span class='line'> 61</span> 	 * TODO: rename TEMPLATESTATE
+<span class='line'> 62</span> 	 */</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ideaBasketState</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">IdeaBasketState</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">	
+<span class='line'> 65</span> 	</span><span class="COMM">//return the state object</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ideaBasketState</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 68</span> 
+<span class='line'> 69</span> </span><span class="COMM">/**
+<span class='line'> 70</span>  * Get the student work for display purposes such as in the grading tool.
+<span class='line'> 71</span>  * 
+<span class='line'> 72</span>  * TODO: rename TEMPLATESTATE
+<span class='line'> 73</span>  * 
+<span class='line'> 74</span>  * @return the student work
+<span class='line'> 75</span>  */</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="NAME">IdeaBasketState.prototype.getStudentWork</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">studentWork</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">	
+<span class='line'> 79</span> 	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">studentWork</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 81</span> 
+<span class='line'> 82</span> </span><span class="COMM">//used to notify scriptloader that this script has finished loading</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">eventManager</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">'undefined'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">	</span><span class="COMM">//TODO: rename template/templatestate.js</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">	</span><span class="NAME">eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'scriptLoaded'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'vle/node/ideabasket/ideaBasketState.js'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="PUNC">}</span></pre></body></html>

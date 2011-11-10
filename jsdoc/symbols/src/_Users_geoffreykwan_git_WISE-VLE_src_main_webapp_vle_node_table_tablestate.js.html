@@ -1,0 +1,176 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/*
+<span class='line'>  2</span>  * This is a template state object that developers can use to create new
+<span class='line'>  3</span>  * step types.
+<span class='line'>  4</span>  *
+<span class='line'>  5</span>  * TODO: Copy this file and rename it to
+<span class='line'>  6</span>  * 
+<span class='line'>  7</span>  * &lt;new step type>state.js
+<span class='line'>  8</span>  * e.g. for example if you are creating a quiz step it would look
+<span class='line'>  9</span>  * something like quizstate.js
+<span class='line'> 10</span>  *
+<span class='line'> 11</span>  * and then put the new file into the new folder
+<span class='line'> 12</span>  * you created for your new step type
+<span class='line'> 13</span>  *
+<span class='line'> 14</span>  * your new folder will look something like
+<span class='line'> 15</span>  * vlewrapper/WebContent/vle/node/&lt;new step type>/
+<span class='line'> 16</span>  *
+<span class='line'> 17</span>  * e.g. if you are creating a quiz step it would look something like
+<span class='line'> 18</span>  * vlewrapper/WebContent/vle/node/quiz/
+<span class='line'> 19</span>  * 
+<span class='line'> 20</span>  * TODO: in this file, change all occurrences of the word 'TEMPLATESTATE' to
+<span class='line'> 21</span>  * 
+<span class='line'> 22</span>  * &lt;new step type>STATE
+<span class='line'> 23</span>  * e.g. for example if you are creating a quiz step it would look
+<span class='line'> 24</span>  * something like QUIZSTATE
+<span class='line'> 25</span>  */</span><span class="WHIT">
+<span class='line'> 26</span> 
+<span class='line'> 27</span> </span><span class="COMM">/**
+<span class='line'> 28</span>  * This is the constructor for the state object that will be used to represent the
+<span class='line'> 29</span>  * student work. An instance of this object will be created each time the student
+<span class='line'> 30</span>  * submits an answer.
+<span class='line'> 31</span>  * 
+<span class='line'> 32</span>  * TODO: rename TEMPLATESTATE
+<span class='line'> 33</span>  * 
+<span class='line'> 34</span>  * note: you can change the variables in this constructor, the response variable
+<span class='line'> 35</span>  * is just used as an example. you can add any variables that will help you 
+<span class='line'> 36</span>  * represent the student's work for your step type.
+<span class='line'> 37</span>  * 
+<span class='line'> 38</span>  * @constructor
+<span class='line'> 39</span>  */</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">TableState</span><span class="PUNC">(</span><span class="NAME">response</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">tableData</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">	</span><span class="COMM">//the text response the student wrote</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">	</span><span class="NAME">this.response</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">	
+<span class='line'> 44</span> 	</span><span class="COMM">//the table data that contains the values in the table as well as settings</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">	</span><span class="NAME">this.tableData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 46</span> 
+<span class='line'> 47</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">response</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">		</span><span class="COMM">//set the response</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">		</span><span class="NAME">this.response</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">response</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">	
+<span class='line'> 52</span> 	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">tableData</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">		</span><span class="COMM">//set the table data</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">		</span><span class="NAME">this.tableData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">tableData</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span> 
+<span class='line'> 58</span> </span><span class="COMM">/**
+<span class='line'> 59</span>  * This function is used to reload previous work the student submitted for the step.
+<span class='line'> 60</span>  * The student work is retrieved and then this function is called to parse the student
+<span class='line'> 61</span>  * work so that we can display the previous answer the student submitted.
+<span class='line'> 62</span>  * 
+<span class='line'> 63</span>  * TODO: rename TEMPLATESTATE
+<span class='line'> 64</span>  * 
+<span class='line'> 65</span>  * note: you can change the variables in the stateJSONObj, the response 
+<span class='line'> 66</span>  * variable is just used as an example. you can add any variables that will  
+<span class='line'> 67</span>  * help you represent the student's work for your type of step.
+<span class='line'> 68</span>  * 
+<span class='line'> 69</span>  * @param stateJSONObj a JSONObject representing the student work
+<span class='line'> 70</span>  * @return a TEMPLATESTATE object
+<span class='line'> 71</span>  */</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="NAME">TableState.prototype.parseDataJSONObj</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">stateJSONObj</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">	</span><span class="COMM">//obtain the student response from the JSONObject</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">response</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">stateJSONObj.response</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">	
+<span class='line'> 76</span> 	</span><span class="COMM">//obtain the student table data</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tableData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">stateJSONObj.tableData</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">	
+<span class='line'> 79</span> 	</span><span class="COMM">/*
+<span class='line'> 80</span> 	 * create a state object with the student work
+<span class='line'> 81</span> 	 * TODO: rename TEMPLATESTATE
+<span class='line'> 82</span> 	 */</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tableState</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">TableState</span><span class="PUNC">(</span><span class="NAME">response</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">tableData</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">	
+<span class='line'> 85</span> 	</span><span class="COMM">//return the state object</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">tableState</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 88</span> 
+<span class='line'> 89</span> </span><span class="COMM">/**
+<span class='line'> 90</span>  * Get the student work for display purposes such as in the grading tool.
+<span class='line'> 91</span>  * 
+<span class='line'> 92</span>  * TODO: rename TEMPLATESTATE
+<span class='line'> 93</span>  * 
+<span class='line'> 94</span>  * @return the student work
+<span class='line'> 95</span>  */</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="NAME">TableState.prototype.getStudentWork</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">studentWork</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">	
+<span class='line'> 99</span> 	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">studentWork</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>101</span> 
+<span class='line'>102</span> </span><span class="COMM">/**
+<span class='line'>103</span>  * Get the html for the table. This table is only for display purposes
+<span class='line'>104</span>  * and will be completely static. The grading tool utilizes this function.
+<span class='line'>105</span>  * @return the html for the table
+<span class='line'>106</span>  */</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="NAME">TableState.prototype.getTableHtml</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">numRows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">numColumns</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">	
+<span class='line'>111</span> 	</span><span class="COMM">/*
+<span class='line'>112</span> 	 * get the first column of the table data so we can find out
+<span class='line'>113</span> 	 * how many rows are in the table
+<span class='line'>114</span> 	 */</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">firstColumn</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.tableData</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">	
+<span class='line'>117</span> 	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">firstColumn</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">		</span><span class="COMM">//get the number of rows</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">		</span><span class="NAME">numRows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">firstColumn.length</span><span class="PUNC">;</span><span class="WHIT">		
+<span class='line'>120</span> 	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">	
+<span class='line'>122</span> 	</span><span class="COMM">//get the number of columns</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">	</span><span class="NAME">numColumns</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.tableData.length</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">	
+<span class='line'>125</span> 	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tableHtml</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">	
+<span class='line'>127</span> 	</span><span class="COMM">//make the table</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">	</span><span class="NAME">tableHtml</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"&lt;table style='border-width:1px; border-style:outset'>"</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">	
+<span class='line'>130</span> 	</span><span class="COMM">//loop through all the rows</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">&lt;</span><span class="NAME">numRows</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">	
+<span class='line'>133</span> 		</span><span class="NAME">tableHtml</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"&lt;tr>"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">		
+<span class='line'>135</span> 		</span><span class="COMM">//loop through all the columns</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">&lt;</span><span class="NAME">numColumns</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">			</span><span class="NAME">tableHtml</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"&lt;td style='border-width:1px; border-style:inset; width:20px; height:20px'>"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">			
+<span class='line'>139</span> 			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this.tableData</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.tableData</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">					</span><span class="NAME">this.tableData</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">y</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.tableData</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">y</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">text</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">				
+<span class='line'>142</span> 				</span><span class="COMM">//get the text that we will display in the cell</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">cellText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.tableData</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">y</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">text</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">				
+<span class='line'>145</span> 				</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">cellText</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">cellText</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">					</span><span class="COMM">//set the text to &nbsp if it is null or empty string</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">					</span><span class="NAME">cellText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'&nbsp'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">				
+<span class='line'>150</span> 				</span><span class="COMM">//add the cell text</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">				</span><span class="NAME">tableHtml</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cellText</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">			
+<span class='line'>154</span> 			</span><span class="NAME">tableHtml</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"&lt;/td>"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">		
+<span class='line'>157</span> 		</span><span class="NAME">tableHtml</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"&lt;/tr>"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">	
+<span class='line'>160</span> 	</span><span class="NAME">tableHtml</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"&lt;/table>"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">	
+<span class='line'>162</span> 	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">tableHtml</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>164</span> 
+<span class='line'>165</span> </span><span class="COMM">//used to notify scriptloader that this script has finished loading</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">eventManager</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">'undefined'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">	</span><span class="COMM">//TODO: rename template/templatestate.js</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">	</span><span class="NAME">eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'scriptLoaded'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'vle/node/table/tablestate.js'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="PUNC">}</span></pre></body></html>

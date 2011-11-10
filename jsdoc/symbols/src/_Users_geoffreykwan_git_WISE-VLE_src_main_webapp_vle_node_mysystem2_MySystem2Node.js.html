@@ -1,0 +1,160 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="NAME">Mysystem2Node.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Node</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="NAME">Mysystem2Node.prototype.constructor</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Mysystem2Node</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="NAME">Mysystem2Node.prototype.parent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Node.prototype</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  4</span> 
+<span class='line'>  5</span> </span><span class="COMM">/*
+<span class='line'>  6</span>  * the name that displays in the authoring tool when the author creates a new step
+<span class='line'>  7</span>  */</span><span class="WHIT">
+<span class='line'>  8</span> </span><span class="NAME">Mysystem2Node.authoringToolName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"My System 2"</span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'>  9</span> 
+<span class='line'> 10</span> </span><span class="COMM">/*
+<span class='line'> 11</span>  * will be seen by the author when they add a new step to their project to help
+<span class='line'> 12</span>  * them understand what kind of step this is
+<span class='line'> 13</span>  */</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="NAME">Mysystem2Node.authoringToolDescription</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"This is a generic step only used by developers"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 15</span> 
+<span class='line'> 16</span> </span><span class="COMM">/**
+<span class='line'> 17</span>  * This is the constructor for the Node
+<span class='line'> 18</span>  * @constructor
+<span class='line'> 19</span>  * @extends Node
+<span class='line'> 20</span>  * @param nodeType
+<span class='line'> 21</span>  * @param view
+<span class='line'> 22</span>  */</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">Mysystem2Node</span><span class="PUNC">(</span><span class="NAME">nodeType</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">view</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">	</span><span class="NAME">this.view</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">view</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">	</span><span class="NAME">this.type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nodeType</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">	</span><span class="NAME">this.prevWorkNodeIds</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 28</span> 
+<span class='line'> 29</span> </span><span class="COMM">/**
+<span class='line'> 30</span>  * This function is called when the vle loads the step and parses
+<span class='line'> 31</span>  * the previous student answers, if any, so that it can reload
+<span class='line'> 32</span>  * the student's previous answers into the step.
+<span class='line'> 33</span>  * 
+<span class='line'> 34</span>  * @param stateJSONObj
+<span class='line'> 35</span>  * @return a new state object
+<span class='line'> 36</span>  */</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="NAME">Mysystem2Node.prototype.parseDataJSONObj</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">stateJSONObj</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">MYSYSTEM2STATE.prototype.parseDataJSONObj</span><span class="PUNC">(</span><span class="NAME">stateJSONObj</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 40</span> 
+<span class='line'> 41</span> </span><span class="COMM">/**
+<span class='line'> 42</span>  * This function is called if there needs to be any special translation
+<span class='line'> 43</span>  * of the student work from the way the student work is stored to a
+<span class='line'> 44</span>  * human readable form. For example if the student work is stored
+<span class='line'> 45</span>  * as an array that contains 3 elements, for example
+<span class='line'> 46</span>  * ["apple", "banana", "orange"]
+<span class='line'> 47</span>  *  
+<span class='line'> 48</span>  * and you wanted to display the student work like this
+<span class='line'> 49</span>  * 
+<span class='line'> 50</span>  * Answer 1: apple
+<span class='line'> 51</span>  * Answer 2: banana
+<span class='line'> 52</span>  * Answer 3: orange
+<span class='line'> 53</span>  * 
+<span class='line'> 54</span>  * you would perform that translation in this function.
+<span class='line'> 55</span>  * 
+<span class='line'> 56</span>  * Note: In most cases you will not have to change the code in this function
+<span class='line'> 57</span>  * 
+<span class='line'> 58</span>  * @param studentWork
+<span class='line'> 59</span>  * @return translated student work
+<span class='line'> 60</span>  */</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="NAME">Mysystem2Node.prototype.translateStudentWork</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">studentWork</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">studentWork</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> 
+<span class='line'> 65</span> </span><span class="COMM">/**
+<span class='line'> 66</span>  * This function is called when the student exits the step. It is mostly
+<span class='line'> 67</span>  * used for error checking.
+<span class='line'> 68</span>  * 
+<span class='line'> 69</span>  * Note: In most cases you will not have to change anything here.
+<span class='line'> 70</span>  */</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="NAME">Mysystem2Node.prototype.onExit</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">	</span><span class="COMM">//check if the content panel has been set</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this.contentPanel</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this.contentPanel.save</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">			</span><span class="COMM">//tell the content panel to save</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">			</span><span class="NAME">this.contentPanel.save</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 80</span> 
+<span class='line'> 81</span> </span><span class="COMM">/**
+<span class='line'> 82</span>  * Renders the student work into the div. The grading tool will pass in a
+<span class='line'> 83</span>  * div id to this function and this function will insert the student data
+<span class='line'> 84</span>  * into the div.
+<span class='line'> 85</span>  * 
+<span class='line'> 86</span>  * @param divId the id of the div we will render the student work into
+<span class='line'> 87</span>  * @param nodeVisit the student work
+<span class='line'> 88</span>  * @param childDivIdPrefix (optional) a string that will be prepended to all the 
+<span class='line'> 89</span>  * div ids use this to prevent DOM conflicts such as when the show all work div
+<span class='line'> 90</span>  * uses the same ids as the show flagged work div
+<span class='line'> 91</span>  * @param workgroupId the id of the workgroup this work belongs to
+<span class='line'> 92</span>  * 
+<span class='line'> 93</span>  * Note: you may need to add code to this function if the student
+<span class='line'> 94</span>  * data for your step is complex or requires additional processing.
+<span class='line'> 95</span>  * look at SensorNode.renderGradingView() as an example of a step that
+<span class='line'> 96</span>  * requires additional processing
+<span class='line'> 97</span>  */</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="NAME">Mysystem2Node.prototype.renderGradingView</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">divId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nodeVisit</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">childDivIdPrefix</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">workgroupId</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">	</span><span class="COMM">//Get the latest student state object for this step</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">MYSYSTEM2STATE</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nodeVisit.getLatestWork</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">	
+<span class='line'>102</span> 	</span><span class="COMM">/*
+<span class='line'>103</span> 	 * get the step work id from the node visit in case we need to use it in
+<span class='line'>104</span> 	 * a DOM id. we don't use it in this case but I have retrieved it in case
+<span class='line'>105</span> 	 * someone does need it. look at SensorNode.js to view an example of
+<span class='line'>106</span> 	 * how one might use it.
+<span class='line'>107</span> 	 */</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">stepWorkId</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nodeVisit.id</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">	
+<span class='line'>110</span> 	</span><span class="COMM">// get student work (string)</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">studentWork</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">MYSYSTEM2STATE.getStudentWork</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">response</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">	
+<span class='line'>113</span> 	</span><span class="COMM">// get content</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getContent</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">getContentString</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>115</span> 
+<span class='line'>116</span> </span><span class="WHIT">	</span><span class="COMM">// get content baseurl (e.g. 'http://localhost:8080/curriculum/897')</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">contentBaseUrl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.view.config.getConfigParam</span><span class="PUNC">(</span><span class="STRN">'getContentBaseUrl'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">	
+<span class='line'>118</span> 
+<span class='line'>119</span>     </span><span class="COMM">// prepend contentbaseurl in front of "assets" to content</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">    </span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.view.utils.prependContentBaseUrlToAssets</span><span class="PUNC">(</span><span class="NAME">contentBaseUrl</span><span class="PUNC">,</span><span class="NAME">content</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">    
+<span class='line'>122</span>     </span><span class="COMM">// prepend contentbaseurl in front of "assets" to student's work</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">studentWork</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.view.utils.prependContentBaseUrlToAssets</span><span class="PUNC">(</span><span class="NAME">contentBaseUrl</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">studentWork</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">	
+<span class='line'>125</span> 	</span><span class="COMM">// put the student work and content in a hidden element</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">    </span><span class="COMM">// add enlarge link to show student's diagram in a popup window</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">divContent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"&lt;a class='msEnlarge' style='text-decoration:underline; color:blue;'"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">		</span><span class="STRN">"onclick='var newWindow=window.open(\"/vlewrapper/vle/node/mysystem2/mysystem2.html\"); newWindow.divId=\""</span><span class="PUNC">+</span><span class="NAME">divId</span><span class="PUNC">+</span><span class="STRN">"\"'>enlarge&lt;/a>"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">    	</span><span class="STRN">"&lt;span id='content_"</span><span class="PUNC">+</span><span class="NAME">divId</span><span class="PUNC">+</span><span class="STRN">"' style='display:none'>"</span><span class="PUNC">+</span><span class="NAME">content</span><span class="PUNC">+</span><span class="STRN">"&lt;/span>"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">    	</span><span class="STRN">"&lt;span id='studentwork_"</span><span class="PUNC">+</span><span class="NAME">divId</span><span class="PUNC">+</span><span class="STRN">"' style='display:none'>"</span><span class="PUNC">+</span><span class="NAME">studentWork</span><span class="PUNC">+</span><span class="STRN">"&lt;/span>"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">	
+<span class='line'>132</span> 	</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">divId</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">html</span><span class="PUNC">(</span><span class="NAME">divContent</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>134</span> 
+<span class='line'>135</span> </span><span class="COMM">/**
+<span class='line'>136</span>  * Get the html file associated with this step that we will use to
+<span class='line'>137</span>  * display to the student.
+<span class='line'>138</span>  * 
+<span class='line'>139</span>  * @return a content object containing the content of the associated
+<span class='line'>140</span>  * html for this step type
+<span class='line'>141</span>  */</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="NAME">Mysystem2Node.prototype.getHTMLContentTemplate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">createContent</span><span class="PUNC">(</span><span class="STRN">'node/mysystem2/mysystem2.html'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>145</span> 
+<span class='line'>146</span> </span><span class="COMM">//Add this node to the node factory so the vle knows it exists.</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="NAME">NodeFactory.addNode</span><span class="PUNC">(</span><span class="STRN">'Mysystem2Node'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Mysystem2Node</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>148</span> 
+<span class='line'>149</span> </span><span class="COMM">//used to notify scriptloader that this script has finished loading</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">eventManager</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">'undefined'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">	</span><span class="NAME">eventManager.fire</span><span class="PUNC">(</span><span class="STRN">'scriptLoaded'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'vle/node/mysystem2/Mysystem2Node.js'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>153</span> </span></pre></body></html>
