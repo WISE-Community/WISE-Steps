@@ -37,7 +37,7 @@ var studentVLEScripts = [
 	 */
 	'vle/node/table/tablestate.js',
 	'vle/jquery/js/jquery-1.6.1.min.js',
-	'vle/jquery/js/jquery-ui-1.8.7.custom.min.js'
+	'vle/jquery/js/jquery-ui-1.8.17.custom.min.js'
 ];
 
 var authorScripts = [
@@ -85,6 +85,9 @@ var dependencies = [
 var nodeClasses = [
 	{nodeClass:'table', nodeClassText:'Table'}
 ];
+
+var nodeIconPath = 'node/table/icons/';
+componentloader.addNodeIconPath('TableNode', nodeIconPath);
 
 scriptloader.addScriptToComponent('core', coreScripts);
 scriptloader.addScriptToComponent('core_min', coreMinScripts);

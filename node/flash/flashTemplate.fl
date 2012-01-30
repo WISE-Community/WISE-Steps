@@ -8,5 +8,6 @@
    "enableData":false,
    "enableGrading":false,
    "gradingType":"flashDisplay",
+   "excelExportStringTemplate":"{response}",
    "type": "Flash"
 }

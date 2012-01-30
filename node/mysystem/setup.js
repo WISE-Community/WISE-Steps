@@ -16,7 +16,7 @@ var studentVLEScripts = [
 	'vle/node/mysystem/mysystem_complete.js',
 	'vle/node/mysystem/mysystem_print.js',
 	'vle/jquery/js/jquery-1.6.1.min.js',
-	'vle/jquery/js/jquery-ui-1.8.7.custom.min.js',
+	'vle/jquery/js/jquery-ui-1.8.17.custom.min.js',
 	'vle/jquery/js/jsonplugin.js'
 ];
 
@@ -35,6 +35,9 @@ var dependencies = [
 var nodeClasses = [
 	{nodeClass:'mysystem', nodeClassText:'My System'}
 ];
+
+var nodeIconPath = 'node/mysystem/icons/';
+componentloader.addNodeIconPath('MySystemNode', nodeIconPath);
 
 var css = [
 	'vle/node/mysystem/css/YUI/reset-font-grids.css',

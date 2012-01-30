@@ -1,0 +1,9 @@
+{
+"maxPathVisitable":1,
+"branchingFunction":"",
+"branchingFunctionParams":[],
+"paths":[],
+"prompt":"",
+"excelExportStringTemplate":"",
+"type": "Branching"
+}

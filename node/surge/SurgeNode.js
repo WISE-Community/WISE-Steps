@@ -110,11 +110,12 @@ SurgeNode.prototype.renderGradingView = function(divId, nodeVisit, childDivIdPre
 	var nodeStates = nodeVisit.nodeStates;
 	
 	if (nodeStates.length > 0) {
-		// get the number of trials during this node visit.
-		gradingText += "This visit has " + nodeStates.length + " trials.<br/><br/>";
 		
 		// get the best score
-		gradingText += "The best medal earned for this level is "+nodeStates[nodeStates.length-1].getStudentWork().response.outcomeAbsoluteText+"<br/><br/>";
+		gradingText += "<span style='font-weight:bold;'>Best medal earned for this level: "+nodeStates[nodeStates.length-1].getStudentWork().response.topScoreText+"</span><br/><br/>";
+		
+		// get the number of trials during this node visit.
+		gradingText += "This visit has " + nodeStates.length + " trial(s).<br/><br/>";
 		
 		/*
 		 * loop through the trials from newest to oldest so that
@@ -149,21 +150,38 @@ SurgeNode.prototype.getHTMLContentTemplate = function() {
 SurgeNode.prototype.processStudentWork = function(studentWork) {
 	if(studentWork != null) {
 		if(studentWork.response != null && studentWork.response != "") {
-			var className = "";
+			//var className = "";
+			var imgPath = '';
+			var tooltip = '';
 			
 			//get the top score
 			var topScore = studentWork.response.topScore;
+			var scoreAbsolute = studentWork.response.scoreAbsolute;
 			
-			if(topScore == 10) {
-				className = "bronzeStar";
-			} else if(topScore == 20) {
-				className = "silverStar";
-			} else if(topScore == 30) {
-				className = "goldStar";
+			var best;
+			
+			if(topScore > scoreAbsolute || topScore == scoreAbsolute){
+				best = topScore;
+			} else {
+				best = scoreAbsolute;
+			}
+			
+			if(best == 10) {
+				//className = "bronzeStar";
+				imgPath = '/vlewrapper/vle/node/surge/images/bronzeStar.gif';
+				tooltip = "You have earned a bronze medal";
+			} else if(best == 20) {
+				//className = "silverStar";
+				imgPath = '/vlewrapper/vle/node/surge/images/silverStar.png';
+				tooltip = "You have earned a silver medal";
+			} else if(best == 30) {
+				//className = "goldStar";
+				imgPath = '/vlewrapper/vle/node/surge/images/goldStar.png';
+				tooltip = "You have earned a gold medal";
 			}
 			
 			//display the star next to the step in the nav menu
-			eventManager.fire('updateStepRightIcon', [this.id, className]);			
+			eventManager.fire('updateStepStatusIcon', [this.id, imgPath, tooltip]);			
 		}
 	}
 };

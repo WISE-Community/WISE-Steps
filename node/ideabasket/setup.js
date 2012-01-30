@@ -29,7 +29,7 @@ var studentVLEScripts = [
 	 */
 	'vle/node/ideabasket/ideaBasketState.js',
     'vle/jquery/js/jquery-1.6.1.min.js',
-	'vle/jquery/js/jquery-ui-1.8.7.custom.min.js',
+	'vle/jquery/js/jquery-ui-1.8.17.custom.min.js',
 	'vle/jquery/js/jquery-validate/jquery.validate.pack.js',
 	'vle/jquery/js/jquery.form.js',
 	'vle/jquery/js/jsonplugin.js',
@@ -82,6 +82,9 @@ var nodeClasses = [
 	{nodeClass:'ideabasket', nodeClassText:'Idea Basket'}
 ];
 
+var nodeIconPath = 'node/ideabasket/icons/';
+componentloader.addNodeIconPath('IdeaBasketNode', nodeIconPath);
+
 scriptloader.addScriptToComponent('core', coreScripts);
 scriptloader.addScriptToComponent('core_min', coreMinScripts);
 
@@ -115,7 +118,7 @@ componentloader.addNodeClasses('IdeaBasketNode', nodeClasses);
 var css = [
        	"vle/css/ideaManager/blue/style.css",
        	"vle/css/ideaManager/basket.css",
-       	"vle/css/ideaManager/custom-theme/jquery-ui-1.8.7.custom.css",
+       	"vle/jquery/css/tels-theme/jquery-ui-1.8.14.custom.css",
        	"vle/css/ideaManager/jquery-validate/cmxformTemplate.css",
        	"vle/node/ideabasket/ideaBasket.css"
 ];

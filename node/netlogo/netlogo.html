@@ -1,0 +1,38 @@
+<!DOCTYPE>
+<html>
+<!-- removed for now, causes problems in Firefox: manifest="svg-editor.manifest" -->
+<head>
+<meta http-equiv="Content-type" content="application/xhtml+xml;charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="chrome=1"/>
+
+<title></title>
+</head>
+<body>
+	<script type="text/javascript">
+	
+	    var netlogo; // global variable so it can be accessed by other functions
+	    
+	    function loadContentAfterScriptsLoad(node) {
+	    	netlogo = new Netlogo(node);
+	    	netlogo.render();
+        };
+		
+        function loadContent(node) {
+	        /*
+	         * this loadScripts() function call will load the javascript imports
+	         * into this html file 
+	         */
+        	scriptloader.loadScripts('netlogo', document, node.id, eventManager);
+        };
+	
+		onExit = function () {
+			
+		};
+	</script>
+	
+	<div id='promptDiv'></div>
+	<div id="netlogo_wrapper">
+	</div>
+	
+</body>
+</html>

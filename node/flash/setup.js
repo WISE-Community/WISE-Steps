@@ -12,8 +12,9 @@ var studentVLEScripts = [
 	'vle/node/flash/flash.js',
 	'vle/node/flash/flashState.js',
 	'vle/jquery/js/jquery-1.6.1.min.js',
-	'vle/jquery/js/jquery-ui-1.8.7.custom.min.js',
-	'vle/swfobject/swfobject.js'
+	'vle/jquery/js/jquery-ui-1.8.17.custom.min.js',
+	'vle/swfobject/swfobject.js',
+	'vle/util/underscore-min.js'
 ];
 
 var authorScripts = [
@@ -31,6 +32,9 @@ var dependencies = [
 var nodeClasses = [
 	{nodeClass:'simulation', nodeClassText:'Flash'}
 ];
+
+var nodeIconPath = 'node/flash/icons/';
+componentloader.addNodeIconPath('FlashNode', nodeIconPath);
 
 scriptloader.addScriptToComponent('core', coreScripts);
 scriptloader.addScriptToComponent('core_min', coreMinScripts);

@@ -16,23 +16,22 @@ function Flash(node) {
 	};
 };
 
-//identify the Flash applet in the DOM - Provided by Adobe on a section on their site about the AS3 ExternalInterface usage.
-Flash.prototype.thisMovie = function(movieName) {
-    if(navigator.appName.indexOf("Microsoft") != -1) {
-        return window[movieName];
-    } else {
-        return document[movieName];
-    }
-};
-
 // Call as3 function in identified Flash applet
 Flash.prototype.sendStateToFlash = function(value) {
-	swfobject.getObjectById("flashContent").importData(value);
+	if (swfobject.getObjectById("flashContent")){
+		swfobject.getObjectById("flashContent").importData(value);
+	} else {
+		if (window.console) console.log("Can't find importData function in Flash activity; no data loaded.");
+	}
 };
 
 //Call as3 function in identified Flash applet
 Flash.prototype.getStateFromFlash = function() {
-	return swfobject.getObjectById("flashContent").exportData();
+	if(swfobject.getObjectById("flashContent")){
+		return swfobject.getObjectById("flashContent").exportData();
+	} else {
+		if (window.console) console.log("Can't find exportData function in Flash activity; no data saved.");
+	}
 };
 
 /**
@@ -57,7 +56,7 @@ Flash.prototype.render = function() {
 	if(this.content.enableData){
 		var lastState = '';
 		// get latest student state
-		if (flash.getLatestState() != null) {
+		if (flash.getLatestState()) {
 			lastState = JSON.stringify(flash.getLatestState().response.data);
 		}
 		// add student data to flashvars (needs to be processed by Flash on load)
@@ -105,24 +104,32 @@ Flash.prototype.save = function() {
 	if(this.content.enableData){
 		var studentData = flash.getStateFromFlash();
 		
-		if(typeof studentData != "undefined"){
+		if(studentData && typeof studentData != "undefined"){
 			var stateJSON = JSON.parse(studentData);
 			
-			/*
-			 * create the student state that will store the new work the student
-			 * just submitted
-			 */
-			var flashState = new FlashState(stateJSON);
+			var latestState = this.getLatestState();
+			if(latestState && typeof latestState != "undefined"){
+				latestState = JSON.parse(JSON.stringify(latestState.response)); // not sure why, but stringify and re-parse is necessary for _.isEqual comparison to work correctly here
+			}
 			
-			/*
-			 * fire the event to push this state to the global view.states object.
-			 * the student work is saved to the server once they move on to the
-			 * next step.
-			 */
-			eventManager.fire('pushStudentWork', flashState);
-
-			//push the state object into this or object's own copy of states
-			this.states.push(flashState);
+			// check to see whether data has changed, if so add new state
+			if(!_.isEqual(stateJSON, latestState)){
+				/*
+				 * create the student state that will store the new work the student
+				 * just submitted
+				 */
+				var flashState = new FlashState(stateJSON);
+				
+				/*
+				 * fire the event to push this state to the global view.states object.
+				 * the student work is saved to the server once they move on to the
+				 * next step.
+				 */
+				eventManager.fire('pushStudentWork', flashState);
+				
+				//push the state object into this or object's own copy of states
+				this.states.push(flashState);
+			 }
 		}
 	}
 };

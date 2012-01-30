@@ -9,7 +9,7 @@ var coreMinScripts = [
 
 var studentVLEScripts = [
     'vle/jquery/js/jquery-1.6.1.min.js',
-	'vle/jquery/js/jquery-ui-1.8.7.custom.min.js',
+	'vle/jquery/js/jquery-ui-1.8.17.custom.min.js',
 	'vle/jquery/js/jsonplugin.js',
 	'vle/node/common/nodehelpers.js',
 	'vle/node/fillin/textentryinteraction.js',
@@ -32,12 +32,15 @@ var dependencies = [
 var css = [
 	"vle/node/common/css/htmlAssessment.css",
 	"vle/node/fillin/fillin.css",
-	"vle/jquery/css/custom-theme/jquery-ui-1.8.7.custom.css"
+	"vle/jquery/css/tels-theme/jquery-ui-1.8.14.custom.css"
 ];
 
 var nodeClasses = [
 	{nodeClass:'fillblank', nodeClassText:'Fill the Blank'}
 ];
+
+var nodeIconPath = 'node/fillin/icons/';
+componentloader.addNodeIconPath('FillinNode', nodeIconPath);
 
 scriptloader.addScriptToComponent('core', coreScripts);
 scriptloader.addScriptToComponent('core_min', coreMinScripts);

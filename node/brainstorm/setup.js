@@ -9,14 +9,13 @@ var coreMinScripts = [
 
 var studentVLEScripts = [
     'vle/jquery/js/jquery-1.6.1.min.js',
-	'vle/jquery/js/jquery-ui-1.8.7.custom.min.js',
+	'vle/jquery/js/jquery-ui-1.8.17.custom.min.js',
 	'vle/jquery/js/jsonplugin.js',
 	'vle/node/common/nodehelpers.js',
 	'vle/common/helperfunctions.js',
 	'vle/node/brainstorm/brainstorm.js',
 	'vle/node/brainstorm/brainstormstate.js',
-	'vle/data/nodevisit.js',
-	'vle/jquery/tinymce/jscripts/tiny_mce/jquery.tinymce.js'
+	'vle/data/nodevisit.js'
 ];
 
 var authorScripts = [
@@ -41,6 +40,9 @@ var nodeClasses = [
 	{nodeClass:'brainstorm', nodeClassText:'Brainstorm session'},
 	{nodeClass:'qadiscuss', nodeClassText:'Q&A Discussion'}
 ];
+
+var nodeIconPath = 'node/brainstorm/icons/';
+componentloader.addNodeIconPath('BrainstormNode', nodeIconPath);
 
 scriptloader.addScriptToComponent('core', coreScripts);
 scriptloader.addScriptToComponent('core_min', coreMinScripts);
