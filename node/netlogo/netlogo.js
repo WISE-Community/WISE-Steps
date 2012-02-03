@@ -4,12 +4,12 @@
  * @param node
  * @returns
  */
-function NetLogo(node) {
+function Netlogo(node) {
 	this.node = node;
 	this.content = node.getContent().getContentJSON();
 }
 
-NetLogo.prototype.render = function(){
+Netlogo.prototype.render = function(){
 	//display any into content to the student
 	$('#promptDiv').html(this.content.prompt);
 

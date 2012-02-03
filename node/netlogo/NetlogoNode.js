@@ -1,18 +1,18 @@
 
-NetLogoNode.prototype = new Node();
-NetLogoNode.prototype.constructor = NetLogoNode;
-NetLogoNode.prototype.parent = Node.prototype;
-NetLogoNode.authoringToolName = "NetLogo";
-NetLogoNode.authoringToolDescription = "Students work on a NetLogo activity";
+NetlogoNode.prototype = new Node();
+NetlogoNode.prototype.constructor = NetlogoNode;
+NetlogoNode.prototype.parent = Node.prototype;
+NetlogoNode.authoringToolName = "NetLogo";
+NetlogoNode.authoringToolDescription = "Students work on a NetLogo activity";
 
 /**
  * @constructor
  * @extends Node
  * @param nodeType
  * @param view
- * @returns {NetLogoNode}
+ * @returns {NetlogoNode}
  */
-function NetLogoNode(nodeType, view) {
+function NetlogoNode(nodeType, view) {
 	this.view = view;
 	this.type = nodeType;
 	this.content = null;
@@ -21,13 +21,13 @@ function NetLogoNode(nodeType, view) {
 	this.audioSupported = true;	
 }
 
-NetLogoNode.prototype.getHTMLContentTemplate = function() {
+NetlogoNode.prototype.getHTMLContentTemplate = function() {
 	return createContent('node/netlogo/netlogo.html');
 };
 
-NodeFactory.addNode('NetLogoNode', NetLogoNode);
+NodeFactory.addNode('NetlogoNode', NetlogoNode);
 
 //used to notify scriptloader that this script has finished loading
 if(typeof eventManager != 'undefined'){
-	eventManager.fire('scriptLoaded', 'vle/node/netlogo/NetLogoNode.js');
+	eventManager.fire('scriptLoaded', 'vle/node/netlogo/NetlogoNode.js');
 };

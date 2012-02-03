@@ -1,6 +1,6 @@
 var coreScripts = [
-	'vle/node/newlogo/NetlogoNode.js',
-	'vle/node/Netlogo/NetlogoEvents.js'
+	'vle/node/netlogo/NetlogoNode.js',
+	'vle/node/netlogo/netlogoEvents.js'
 ];
 
 var studentVLEScripts = [
@@ -8,18 +8,18 @@ var studentVLEScripts = [
 ];
 
 var authorScripts = [
-   	'vle/node/metlogo/authorview_Netlogo.js'
+   	'vle/node/netlogo/authorview_Netlogo.js'
 ];
 
 var gradingScripts = [
-	'vle/node/Netlogo/Netlogostate.js'
+	'vle/node/netlogo/netlogostate.js'
 ];
 
 var dependencies = [
-	{child:"vle/node/Netlogo/NetlogoNode.js", parent:["vle/node/Node.js"]}
+	{child:"vle/node/netlogo/NetlogoNode.js", parent:["vle/node/Node.js"]}
 ];
 
-var nodeIconPath = 'node/template/icons/';
+var nodeIconPath = 'node/netlogo/icons/';
 
 var css = [
 	
@@ -33,18 +33,18 @@ componentloader.addNodeIconPath('TemplateNode', nodeIconPath);
 
 scriptloader.addScriptToComponent('core', coreScripts);
 scriptloader.addScriptToComponent('core_min', coreScripts);
-scriptloader.addScriptToComponent('Netlogo', studentVLEScripts);
+scriptloader.addScriptToComponent('netlogo', studentVLEScripts);
 scriptloader.addScriptToComponent('author', authorScripts);
 scriptloader.addScriptToComponent('studentwork', gradingScripts);
 scriptloader.addScriptToComponent('studentwork_min', gradingScripts);
 scriptloader.addDependencies(dependencies);
-scriptloader.addCssToComponent('Netlogo', css);
+scriptloader.addCssToComponent('netlogo', css);
 
 componentloader.addNodeClasses('NetlogoNode', nodeClasses);
 
 var nodeTemplateParams = [
     {
-        nodeTemplateFilePath:'node/Netlogo/NetlogoTemplate.nl',
+        nodeTemplateFilePath:'node/netlogo/netlogoTemplate.nl',
         nodeExtension:'Netlogo'
     }
 ];
@@ -53,5 +53,5 @@ componentloader.addNodeTemplateParams('NetlogoNode', nodeTemplateParams);
 
 //used to notify scriptloader that this script has finished loading
 if(typeof eventManager != 'undefined'){
-	eventManager.fire('scriptLoaded', 'vle/node/Netlogo/setup.js');
+	eventManager.fire('scriptLoaded', 'vle/node/netlogo/setup.js');
 };
