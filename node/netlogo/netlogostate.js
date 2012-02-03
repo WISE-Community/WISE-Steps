@@ -43,5 +43,5 @@ NetlogoState.prototype.getStudentWork = function() {
 
 //used to notify scriptloader that this script has finished loading
 if(typeof eventManager != 'undefined'){
-	eventManager.fire('scriptLoaded', 'vle/node/netlogo/netlogoState.js');
+	eventManager.fire('scriptLoaded', 'vle/node/netlogo/netlogostate.js');
 };

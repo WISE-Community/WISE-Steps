@@ -1,7 +1,7 @@
 {
 	"activity_uri":"",
-	"height":"550",
-	"width":"700",
-	"version":"4",
+	"height":"800",
+	"width":"900",
+	"version":"5",
 	"type":"Netlogo"
 }

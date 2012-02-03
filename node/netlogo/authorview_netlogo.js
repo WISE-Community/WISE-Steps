@@ -118,11 +118,11 @@ View.prototype.NetlogoNode.generatePage = function(view){
 	
 	// populate nlogo url if it has been authored before
 	if(this.content.activity_uri != '') {
-		this.populateNlogoUrl();
+		this.populateUrl();
 	}
 	
 	//populate the dimensions if this step has been authored before
-	this.populateNlogoDimensions();
+	this.populateDimensions();
 	
 	// populate the advanced options (data logging, grading)
 	this.populateAdvancedOptions();
@@ -223,6 +223,16 @@ View.prototype.NetlogoNode.populateDimensions = function() {
 	
 	//get the width from the content and set it into the authoring textarea
 	$('#nlogoWidthInput').val(this.content.width);
+};
+
+
+/**
+*PLACEHOLDER -- this is called from the code but i don't know what it should do ;) --CB
+*This is where we can show advanced options like enabling student data logging, researcher export,
+*and teacher grading once they are implemented --JLB
+*/
+View.prototype.NetlogoNode.populateAdvancedOptions = function() {
+  console.log("populateAdvancedOptions - placeholder -- TODO: fill in body");
 };
 
 /**
