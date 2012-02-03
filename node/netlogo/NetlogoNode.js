@@ -2,7 +2,7 @@
 NetlogoNode.prototype = new Node();
 NetlogoNode.prototype.constructor = NetlogoNode;
 NetlogoNode.prototype.parent = Node.prototype;
-NetlogoNode.authoringToolName = "NetLogo";
+NetlogoNode.authoringToolName = "Netlogo";
 NetlogoNode.authoringToolDescription = "Students work on a NetLogo activity";
 
 /**
@@ -10,7 +10,7 @@ NetlogoNode.authoringToolDescription = "Students work on a NetLogo activity";
  * @extends Node
  * @param nodeType
  * @param view
- * @returns {NetlogoNode}
+ * @returns {NetLogoNode}
  */
 function NetlogoNode(nodeType, view) {
 	this.view = view;
