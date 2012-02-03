@@ -5,10 +5,11 @@ var coreScripts = [
 
 var studentVLEScripts = [
 	'vle/jquery/js/jquery-1.6.1.min.js',
+	'vle/node/netlogo/netlogo.js'
 ];
 
 var authorScripts = [
-   	'vle/node/netlogo/authorview_Netlogo.js'
+   	'vle/node/netlogo/authorview_netlogo.js'
 ];
 
 var gradingScripts = [
@@ -29,7 +30,7 @@ var nodeClasses = [
 	{nodeClass:'simulation', nodeClassText:'Netlogo'}
 ];
 
-componentloader.addNodeIconPath('TemplateNode', nodeIconPath);
+componentloader.addNodeIconPath('NetlogoNode', nodeIconPath);
 
 scriptloader.addScriptToComponent('core', coreScripts);
 scriptloader.addScriptToComponent('core_min', coreScripts);
@@ -45,7 +46,7 @@ componentloader.addNodeClasses('NetlogoNode', nodeClasses);
 var nodeTemplateParams = [
     {
         nodeTemplateFilePath:'node/netlogo/netlogoTemplate.nl',
-        nodeExtension:'Netlogo'
+        nodeExtension:'nl'
     }
 ];
 
