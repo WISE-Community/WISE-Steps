@@ -105,6 +105,10 @@ SetupNodes.setupFiles = [
 		nodeSetupPath:"vle/node/flash/setup.js"
 	},
 	{
+		nodeName:"NetlogoNode",
+		nodeSetupPath:"vle/node/netlogo/setup.js"
+	},
+	{
 		nodeName:"BranchingNode",
 		nodeSetupPath:"vle/node/branching/setup.js"
 	}
