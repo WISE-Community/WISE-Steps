@@ -93,26 +93,36 @@ FlashNode.prototype.onExit = function() {
  * requires additional processing
  */
 FlashNode.prototype.renderGradingView = function(divId, nodeVisit, childDivIdPrefix, workgroupId) {
-	var gradingText = "";
-	
-	//Get the latest student state object for this step
-	var flashState = nodeVisit.getLatestWork().response.data;
-	
-	/*
-	 * get the step work id from the node visit in case we need to use it in
-	 * a DOM id. we don't use it in this case but I have retrieved it in case
-	 * someone does need it. look at SensorNode.js to view an example of
-	 * how one might use it.
-	 */
-	var stepWorkId = nodeVisit.id;
-	
-	//var studentWork = flashState.getStudentWork();
-	var studentWork = JSON.stringify(flashState);
-	// print out the studentWork string
-	gradingText += studentWork;
-	
-	//put the student work into the div
-	$('#' + divId).html(gradingText);
+	var nodeContent = this.getContent().getContentJSON();
+	if(nodeContent.gradingType == "flashDisplay"){
+		//if node type if FlashNode and grading type is set to flashDisplaty render Flash applet with stored student data
+		this.renderGradingViewFlash(divId, nodeVisit, "", workgroupId, nodeContent);
+	} else if (nodeContent.gradingType == "custom"){
+		//if node type if FlashNode and grading type is set to custom render custom grading output
+		this.renderGradingViewCustom(divId, nodeVisit, "", workgroupId, nodeContent);
+	} else {
+		//otherwise, render the saved student data string
+		var gradingText = "";
+		
+		//Get the latest student state object for this step
+		var flashState = nodeVisit.getLatestWork().response.data;
+		
+		/*
+		 * get the step work id from the node visit in case we need to use it in
+		 * a DOM id. we don't use it in this case but I have retrieved it in case
+		 * someone does need it. look at SensorNode.js to view an example of
+		 * how one might use it.
+		 */
+		var stepWorkId = nodeVisit.id;
+		
+		//var studentWork = flashState.getStudentWork();
+		var studentWork = JSON.stringify(flashState);
+		// print out the studentWork string
+		gradingText += studentWork;
+		
+		//put the student work into the div
+		$('#' + divId).html(gradingText);
+	}
 };
 
 /**
@@ -126,6 +136,7 @@ FlashNode.prototype.renderGradingView = function(divId, nodeVisit, childDivIdPre
 * div ids use this to prevent DOM conflicts such as when the show all work div
 * uses the same ids as the show flagged work div
 * @param workgroupId the id of the workgroup this work belongs to
+* @param nodeContent the step contentJSON
 */
 FlashNode.prototype.renderGradingViewFlash = function(divId, nodeVisit, childDivIdPrefix, workgroupId, nodeContent) {
 	var gradingHtml = '';
@@ -219,6 +230,7 @@ FlashNode.prototype.renderGradingViewFlash = function(divId, nodeVisit, childDiv
 * div ids use this to prevent DOM conflicts such as when the show all work div
 * uses the same ids as the show flagged work div
 * @param workgroupId the id of the workgroup this work belongs to
+* @param nodeContent the step contentJSON
 */
 FlashNode.prototype.renderGradingViewCustom = function(divId, nodeVisit, childDivIdPrefix, workgroupId, nodeContent) {
 	var gradingText = "";
@@ -257,6 +269,34 @@ FlashNode.prototype.renderGradingViewCustom = function(divId, nodeVisit, childDi
  */
 FlashNode.prototype.getHTMLContentTemplate = function() {
 	return createContent('node/flash/flash.html');
+};
+
+/**
+ * Whether this step type has a grading view. Steps types that do not
+ * save any student work will not have a grading view such as HTMLNode
+ * and OutsideUrlNode. Flash steps will need to look at the step content
+ * to determine if this instance of the Flash step implements the
+ * grading view.
+ * @returns whether this step type has a grading view
+ */
+FlashNode.prototype.hasGradingView = function() {
+	var result = false;
+	
+	//get the content
+	var content = this.getContent();
+	
+	if(content != null) {
+		//get the content JSON
+		var contentJSON = content.getContentJSON();
+		
+		if(contentJSON != null) {
+			//obtain the enableGrading field
+			var enableGrading = contentJSON.enableGrading;
+			
+			result = enableGrading;
+		}
+	}
+	return result;
 };
 
 //Add this node to the node factory so the vle knows it exists.
