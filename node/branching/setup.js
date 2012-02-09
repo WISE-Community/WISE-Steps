@@ -18,6 +18,8 @@ var coreScripts = [
 ];
 
 var studentVLEScripts = [
+    scriptloader.jquerySrc,
+    scriptloader.jqueryUISrc,
  	/*
      * TODO: rename branching
      * TODO: rename branching.js
@@ -33,9 +35,7 @@ var studentVLEScripts = [
      * For example if you are creating a quiz node you would change it to
      * 'vle/node/quiz/quizState.js'
 	 */
-	'vle/node/branching/branchingState.js',
-	'vle/jquery/js/jquery-1.6.1.min.js',
-	'vle/jquery/js/jquery-ui-1.8.7.custom.min.js'
+	'vle/node/branching/branchingState.js'
 ];
 
 var authorScripts = [

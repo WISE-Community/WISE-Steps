@@ -9,10 +9,10 @@ var coreMinScripts = [
 ];
 
 var studentVLEScripts = [
+	scriptloader.jquerySrc,
+	scriptloader.jqueryUISrc,
 	'vle/node/common/nodehelpers.js',
 	'vle/common/helperfunctions.js',
-	'vle/jquery/js/jquery-1.6.1.min.js',
-	'vle/jquery/js/jquery-ui-1.8.17.custom.min.js',
 	'vle/jquery/js/jsonplugin.js',
 	'vle/node/multiplechoice/multiplechoicestate.js',
 	'vle/node/multiplechoice/challengestate.js',
@@ -42,9 +42,9 @@ var dependencies = [
 ];
 
 var css = [
+	scriptloader.jqueryUICss,
 	"vle/node/common/css/htmlAssessment.css",
-	"vle/node/multiplechoice/mcstyles.css",
-	"vle/jquery/css/wise-theme/jquery-ui-1.8.17.custom.css"
+	"vle/node/multiplechoice/mcstyles.css"
 ];
 
 var multipleChoiceNodeClasses = [
