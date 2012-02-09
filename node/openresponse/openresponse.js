@@ -149,7 +149,8 @@ OPENRESPONSE.prototype.save = function(saveAndLock) {
 			var orState = new OPENRESPONSESTATE([response]);
 			
 			//set the cRaterItemId into the node state if this step is a CRater item
-			if(this.content.cRater != null && this.content.cRater.cRaterItemId != null) {
+			if(this.content.cRater != null && this.content.cRater.cRaterItemId != null
+					&& this.content.cRater.cRaterItemId != '') {
 				orState.cRaterItemId = this.content.cRater.cRaterItemId;
 			}
 
@@ -430,6 +431,9 @@ OPENRESPONSE.prototype.render = function() {
 			 */
 			document.getElementById('saveAndLockButtonDiv').style.display = 'block';
 		}
+	} else if (this.content.isLockAfterSubmit) {
+		// this node is set to lock after the student submits the answer. show saveAndLock button
+		document.getElementById('saveAndLockButtonDiv').style.display = 'block';
 	}
 	
 	if(this.view != null && this.view.activeNode != null) {
@@ -535,6 +539,11 @@ OPENRESPONSE.prototype.render = function() {
 		 * the regular divs and populate them
 		 */
 		this.displayRegular();
+	}
+	
+	if (this.content.isLockAfterSubmit) {
+		// this node is set to lock after the student submits the answer. show saveAndLock button
+		$("#saveButton").hide();
 	}
 	
 	//check if this step is locked

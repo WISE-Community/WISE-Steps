@@ -100,10 +100,7 @@ Node.prototype.getPrompt = function() {
 				var assessmentItem = contentJSON.assessmentItem;
 				var interaction = assessmentItem.interaction;
 				prompt = interaction.prompt;	
-			}
-			// check if node is an SVGDrawNode
-			if(this.type=='SVGDrawNode'){
-			//obtain the prompt
+			} else {
 				if(contentJSON.prompt != null){
 					prompt = contentJSON.prompt;
 				}
@@ -299,9 +296,9 @@ Node.prototype.render = function(contentPanel, studentWork, disable) {
 	/* if there is a disable constraint, we want to set a semi-transparent panel over the content div */
 	if(disable==1){
 		/* get the position, height and width of the content panel */
-		var panelPosition = $('#projectRightLowerBox').offset();
-		var panelHeight = $('#projectRightLowerBox').height() + 2;
-		var panelWidth = $('#projectRightLowerBox').width() + 2;
+		var panelPosition = $('#contentDiv').offset();
+		var panelHeight = $('#contentDiv').height() + 2;
+		var panelWidth = $('#contentDiv').width() + 2;
 		
 		/* create the disabledPanel and append it to the given document */
 		var dynamicPanel = $('<div id="disabledPanel"></div>').css({opacity: 0.361, height:panelHeight, width:panelWidth, background:'#000', position:'absolute', 'z-index':999, top:panelPosition.top, left:panelPosition.left}).fadeIn(300);
@@ -1170,8 +1167,14 @@ Node.prototype.getShowAllWorkHtml = function(vle, divIdPrefix){
             }
         }
         var latestState = states[states.length - 1];
-        // TODO: i18n
-        showAllWorkHtmlSoFar += "<p class='info'>Last visited on ";
+        
+        if(latestState!=null){
+        	// TODO: i18n
+            showAllWorkHtmlSoFar += "<p class='info lastVisit'>Last visited on ";
+        } else {
+        	// TODO: i18n
+            showAllWorkHtmlSoFar += "<p class='info'>Last visited on ";
+        }
         
         if(latestNodeVisit!=null){
         	showAllWorkHtmlSoFar += "" + new Date(parseInt(latestNodeVisit.visitStartTime)).toLocaleString() + "</p>";
@@ -1193,7 +1196,10 @@ Node.prototype.getShowAllWorkHtml = function(vle, divIdPrefix){
         	var divId = divIdPrefix + "latestWork_"+latestNodeVisit.id;
         	var contentBaseUrl = this.view.getConfig().getConfigParam('getContentBaseUrl');
         	
-        	if(this.view.isSelfRenderingGradingViewNodeType(this.type)) {
+        	if(this.type == "MySystemNode" || this.type == "SVGDrawNode") {
+        		showAllWorkHtmlSoFar += '<div class=\"showallLatest\">Latest Work:' + '</div>' + 
+    			'<div id=\"'+divId+'\" contentBaseUrl=\"'+contentBaseUrl+'\" class=\"'+divClass+'\" style=\"'+divStyle+'\">' + this.translateStudentWork(latestState.getStudentWork()) + '</div>';
+        	} else if(this.hasGradingView()) {
         		showAllWorkHtmlSoFar += '<div class=\"showallLatest\">Latest Work:' + '</div>' + 
         		'<div id=\"'+divId+'\" contentBaseUrl=\"'+contentBaseUrl+'\" class=\"'+divClass+'\" style=\"'+divStyle+'\"></div>';
         	} else {
@@ -1212,7 +1218,7 @@ Node.prototype.getShowAllWorkHtml = function(vle, divIdPrefix){
         };
     }
     else {
-        showAllWorkHtmlSoFar += "<p class='info'>Step not visited yet.</p>";
+        showAllWorkHtmlSoFar += "<p class='info'>You haven't visited this step.</p>";
     }
     
     for (var i = 0; i < this.children.length; i++) {
@@ -1454,6 +1460,17 @@ Node.prototype.onBeforeCreateNavigationHtml = function() {
  */
 Node.prototype.getTagMapFunctionByName = function(functionName) {
 	return null;
+};
+
+/**
+ * Whether this step type has a grading view. Steps that do not save
+ * any student work will not have a grading view such as HTMLNode
+ * and OutsideUrlNode. Steps types that do not have a grading view 
+ * should override this function and return false.
+ * @returns whether this step type has a grading view
+ */
+Node.prototype.hasGradingView = function() {
+	return true;
 };
 
 //used to notify scriptloader that this script has finished loading
